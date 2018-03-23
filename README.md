@@ -1,4 +1,4 @@
-# On Money(Back - end)
+# On Money(Back - end) [![Build Status](https://travis-ci.org/yashka713/on_money_back.svg?branch=master)](https://travis-ci.org/yashka713/on_money_back)
 
 ### Technical task [here](https://gist.github.com/yashka713/d4dc2210b04a45ffc0850de14ff1b4ff).
 
