@@ -1,0 +1,30 @@
+AllCops:
+  DisplayCopNames: false
+  DisplayStyleGuide: false
+  StyleGuideCopsOnly: false
+  TargetRubyVersion: 2.5.0
+  Excludes:
+    - 'node_modules/**/*'
+    - 'bin/**/*'
+
+Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Severity: warning
+  CountComments: false
+  Max: 20
+
+Metrics/ModuleLength:
+  Exclude:
+    - "**/*_spec.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "**/*_spec.rb"
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

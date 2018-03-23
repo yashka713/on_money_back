@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.5.0
+services:
+  - postgresql
+before_script:
+  - psql -c "CREATE DATABASE test;" -U postgres
+  - psql -c "CREATE USER test WITH PASSWORD 'test';" -U postgres
+#  - "bundle exec rake db:create db:migrate"
+script:
+  - bundle exec rubocop --config .rubocop.yml app/ spec/ db/migrate
+  - bundle exec rspec
