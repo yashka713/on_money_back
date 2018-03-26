@@ -10,6 +10,13 @@ services:
     ports:
     # HOST:CONTAINER
       - '5433:5432'
+  mongo:
+    image: mongo:3.6
+    command: mongod --smallfiles --quiet
+    volumes:
+      - ./mongo-data:/data/db
+    ports:
+      - "27018:27017"
   api:
     restart: always
     build: .
@@ -25,3 +32,4 @@ services:
       - '3000:3000'
     depends_on:
       - postgres
+      - mongo

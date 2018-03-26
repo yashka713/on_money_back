@@ -6,6 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'cancancan'
+gem 'mongoid', '~> 6.1.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'rails', '~> 5.1.5'
