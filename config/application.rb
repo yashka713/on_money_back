@@ -36,6 +36,16 @@ module OnMoneyBack
       g.helper          false
     end
 
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*',
+                 :headers => :any,
+                 :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+                 :methods => [:get, :post, :options, :delete, :put]
+      end
+    end
+
     # for Docker
     # https://nickjanetakis.com/blog/dockerize-a-rails-5-postgres-redis-sidekiq-action-cable-app-with-docker-compose
     logger           = ActiveSupport::Logger.new(STDOUT)
