@@ -37,11 +37,11 @@ RSpec.describe 'Authentication Api', type: :request do
           signup(user_props)
           post user_registration_path, params: user_props
           payload = JSON.parse(response.body)
-          expect(payload).to include("status"=>"error")
-          expect(payload).to include("errors")
-          expect(payload["errors"]).to include("email")
-          expect(payload["errors"]).to include("full_messages")
-          expect(payload["errors"]["full_messages"]).to include(/Email/i)
+          expect(payload).to include('status' => 'error')
+          expect(payload).to include('errors')
+          expect(payload['errors']).to include('email')
+          expect(payload['errors']).to include('full_messages')
+          expect(payload['errors']['full_messages']).to include(/Email/i)
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe 'Authentication Api', type: :request do
     end
     context 'invalid' do
       it 'rejects credentials' do
-        login account.merge(:password=>"badpassword"), :unauthorized
+        login account.merge(password: 'badpassword'), :unauthorized
       end
     end
   end
