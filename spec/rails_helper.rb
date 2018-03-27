@@ -11,7 +11,9 @@ require 'faker'
 require 'rspec/collection_matchers'
 require 'shoulda/matchers'
 
-# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+include ApiHelper
 
 RSpec.configure do |config|
   DatabaseCleaner[:active_record].strategy = :truncation
