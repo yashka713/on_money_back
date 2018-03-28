@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+    # HOST:CONTAINER
+      - '5433:5432'
+  api:
+    restart: always
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    # for debugging
+    tty: true
+    stdin_open: true
+    # for online changes
+    volumes:
+      - .:/railsapi
+    ports:
+    # HOST:CONTAINER
+      - '3000:3000'
+    depends_on:
+      - postgres

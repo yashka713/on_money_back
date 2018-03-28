@@ -4,8 +4,8 @@ AllCops:
   StyleGuideCopsOnly: false
   TargetRubyVersion: 2.5.0
   Excludes:
-    - 'node_modules/**/*'
     - 'bin/**/*'
+    - 'spec/support/**/**'
 
 Documentation:
   Enabled: false
@@ -17,14 +17,20 @@ Metrics/MethodLength:
   Severity: warning
   CountComments: false
   Max: 20
+  Exclude:
+    - 'db/migrate/**'
 
 Metrics/ModuleLength:
   Exclude:
-    - "**/*_spec.rb"
+    - '**/*_spec.rb'
 
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/**'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
