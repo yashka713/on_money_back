@@ -13,7 +13,6 @@ RSpec.describe 'Authentication Api', type: :request do
         expect(payload['data']).to include('id')
         expect(payload['data']).to include('provider' => 'email')
         expect(payload['data']).to include('uid' => user_props[:email])
-        expect(payload['data']).to include('name' => user_props[:name])
         expect(payload['data']).to include('email' => user_props[:email])
       end
     end
