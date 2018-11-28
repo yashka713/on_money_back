@@ -20,6 +20,7 @@ module OnMoneyBack
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
+    config.autoload_paths << Rails.root.join('lib')
 
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
@@ -41,7 +42,6 @@ module OnMoneyBack
         origins '*'
         resource '*',
                  headers: :any,
-                 expose: %w[access-token expiry token-type uid client],
                  methods: %i[get post options delete put]
       end
     end

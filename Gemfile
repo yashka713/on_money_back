@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.5.0'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
@@ -6,24 +7,14 @@ git_source(:github) do |repo_name|
 end
 
 gem 'active_model_serializers'
-# auth
-gem 'devise'
-gem 'rack-cors', require: 'rack/cors'
-
-# Use postgresql as the database for Active Record
+gem 'bcrypt', '~> 3.1.7'
+gem 'jwt'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'rails', '~> 5.1.5'
-# Use Puma as the app server
 gem 'puma', '~> 3.7'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'rack-cors', require: 'rack/cors'
+gem 'rails', '~> 5.1.5'
 gem 'rubocop'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
 
 group :development, :test do
   gem 'byebug'
@@ -47,5 +38,3 @@ group :development do
 end
 
 gem 'rails_12factor', group: :production
-
-ruby '2.5.0'
