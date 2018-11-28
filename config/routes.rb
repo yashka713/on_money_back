@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'authn/whoami'
   get 'authn/checkme'
 
-  mount_devise_token_auth_for 'User', at: 'auth'
+      resources :profiles, only: %i[] do
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do

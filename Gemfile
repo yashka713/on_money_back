@@ -8,8 +8,6 @@ end
 gem 'active_model_serializers'
 # auth
 gem 'devise'
-gem 'devise_token_auth'
-gem 'omniauth', '~> 1.6', '>= 1.6.1'
 gem 'rack-cors', require: 'rack/cors'
 
 # Use postgresql as the database for Active Record
