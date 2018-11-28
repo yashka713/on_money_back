@@ -1,5 +1,6 @@
 en:
-  hello: "Hello world"
+  user:
+    forbidden: You are not authorized to access this page.
   activerecord:
     errors:
       models:
