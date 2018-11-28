@@ -13,7 +13,7 @@ Rails.application.routes.draw do
         end
       end
 
-  namespace :api, defaults: { format: 'json' } do
+      resources :docs, only: :index
     end
   end
 end

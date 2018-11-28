@@ -12,6 +12,9 @@ Documentation:
 
 Metrics/LineLength:
   Max: 120
+  Exclude:
+    - "**/*_spec.rb"
+    - "**/*_docs.rb"
 
 Metrics/MethodLength:
   Severity: warning
@@ -23,14 +26,18 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Exclude:
     - '**/*_spec.rb'
+    - "**/*_docs.rb"
 
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
+    - "**/*_docs.rb"
 
 Metrics/AbcSize:
   Exclude:
     - 'db/migrate/**'
+    - "**/*_docs.rb"
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+  EnforcedStyle: never
