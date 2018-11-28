@@ -11,6 +11,9 @@ require 'faker'
 require 'rspec/collection_matchers'
 require 'shoulda/matchers'
 
+ENV['AUTH_SECRET'] = 'test'
+ENV['TOKEN_LIFETIME'] = '100'
+
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
