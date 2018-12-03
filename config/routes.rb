@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :profiles, only: %i[] do
         collection do
           post :registration
+          patch :update
         end
       end
 

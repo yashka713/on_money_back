@@ -16,7 +16,7 @@ module Docs
         key :type, :json
         key :required, true
         schema do
-          key :'$ref', :UserCredentials
+          key :'$ref', :UserCreateCredentials
         end
       end
 
@@ -41,7 +41,7 @@ module Docs
   end
 
   swagger_path '/api/v1/sessions/check_user' do
-    operation :post do
+    operation :get do
       key :description, 'Check jwt token'
       key :summary, 'Check jwt token and return user data if it is correct'
       key :operationId, 'check_user'

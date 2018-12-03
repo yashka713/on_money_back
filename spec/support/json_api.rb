@@ -24,3 +24,7 @@ def login_user(user)
   jwt = Auth.issue(user.id)
   request.headers['Authorization'] = "Bearer #{jwt}"
 end
+
+def full_messages(subject)
+  subject.errors.full_messages.first
+end

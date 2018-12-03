@@ -1,5 +1,5 @@
 module Docs
-  swagger_schema :UserCredentials do
+  swagger_schema :UserCreateCredentials do
     key :required, %i[user]
     property :user do
       key :type, :object
@@ -11,6 +11,22 @@ module Docs
           password: {
             type: :string,
             example: 'Passw1'
+          }
+    end
+  end
+
+  swagger_schema :UserUpdateCredentials do
+    key :required, %i[user]
+    property :user do
+      key :type, :object
+      key :properties,
+          name: {
+            type: :string,
+            example: 'First_name'
+          },
+          nickname: {
+            type: :string,
+            example: 'test'
           }
     end
   end
