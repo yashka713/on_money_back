@@ -4,6 +4,9 @@ module Api
       include JsonApi
       include Authenticatable
 
+      rescue_from ActiveRecord::RecordNotFound, with: :render_404
+      rescue_from ActionController::ParameterMissing, with: :render_400
+
       before_action :authenticate
     end
   end
