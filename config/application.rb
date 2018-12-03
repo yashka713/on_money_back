@@ -42,7 +42,7 @@ module OnMoneyBack
         origins '*'
         resource '*',
                  headers: :any,
-                 methods: %i[get post options delete put]
+                 methods: %i[get post options delete put patch]
       end
     end
   end
