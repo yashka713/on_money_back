@@ -1,6 +1,10 @@
 en:
   user:
-    forbidden: You are not authorized to access this page.
+    errors:
+      forbidden: You are not authorized to access this page.
+  currency:
+    errors:
+      unknown_currency: Unknown currency
   activerecord:
     errors:
       models:
@@ -9,3 +13,8 @@ en:
             password:
               blank: Must be 6 or more characters, at least one upper case and one number.
               format: Must be 6 or more characters, at least one upper case and one number.
+  number:
+    currency:
+      format:
+        delimiter: ","
+        separator: "."

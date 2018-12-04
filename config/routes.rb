@@ -14,6 +14,10 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :accounts
+
+      resources :currencies, only: :index
+
       resources :docs, only: :index
     end
   end
