@@ -14,6 +14,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :accounts
+
       resources :docs, only: :index
     end
   end
