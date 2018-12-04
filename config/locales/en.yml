@@ -9,3 +9,8 @@ en:
             password:
               blank: Must be 6 or more characters, at least one upper case and one number.
               format: Must be 6 or more characters, at least one upper case and one number.
+  number:
+    currency:
+      format:
+        delimiter: ","
+        separator: "."

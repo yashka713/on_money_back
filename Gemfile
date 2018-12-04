@@ -9,6 +9,7 @@ end
 gem 'active_model_serializers'
 gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
+gem 'money'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.7'
 gem 'rack-cors', require: 'rack/cors'
