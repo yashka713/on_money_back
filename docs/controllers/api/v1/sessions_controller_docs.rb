@@ -66,7 +66,7 @@ module Docs
       end
 
       response 401 do
-        key :description, 'Error, when credentials is incorrect'
+        key :description, 'Error, when jwt is incorrect'
         schema do
           key :type, :object
           key :'$ref', :Unauthorized

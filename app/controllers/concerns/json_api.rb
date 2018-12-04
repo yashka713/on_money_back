@@ -27,7 +27,7 @@ module JsonApi
     false
   end
 
-  def render_403(message = I18n.t('user.forbidden'))
+  def render_403(message = I18n.t('user.errors.forbidden'))
     render json: to_jsonapi_errors(
       'forbidden',
       message

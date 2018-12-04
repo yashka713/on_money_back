@@ -1,6 +1,7 @@
 en:
   user:
-    forbidden: You are not authorized to access this page.
+    errors:
+      forbidden: You are not authorized to access this page.
   currency:
     errors:
       unknown_currency: Unknown currency
