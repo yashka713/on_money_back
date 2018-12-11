@@ -2,6 +2,11 @@ en:
   user:
     errors:
       forbidden: You are not authorized to access this page.
+  account:
+    errors:
+      accounts_doesnt_match: Accounts currencies doesn't match
+      accounts_match: Accounts matches
+
   currency:
     errors:
       unknown_currency: Unknown currency
@@ -13,6 +18,17 @@ en:
             password:
               blank: Must be 6 or more characters, at least one upper case and one number.
               format: Must be 6 or more characters, at least one upper case and one number.
+  errors:
+    messages:
+      invalid_date: "is not a valid date"
+      invalid_time: "is not a valid time"
+      invalid_datetime: "is not a valid datetime"
+      is_at: "must be at %{restriction}"
+      before: "must be before %{restriction}"
+      on_or_before: "must be on or before %{restriction}"
+      after: "must be after %{restriction}"
+      on_or_after: "must be on or after %{restriction}"
+
   number:
     currency:
       format:

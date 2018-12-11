@@ -16,6 +16,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.1.5'
 gem 'rubocop'
 gem 'swagger-blocks'
+gem 'validates_timeliness', '~> 5.0.0.alpha3'
 
 group :development, :test do
   gem 'byebug'
