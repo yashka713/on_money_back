@@ -3,7 +3,7 @@ AllCops:
   DisplayStyleGuide: false
   StyleGuideCopsOnly: false
   TargetRubyVersion: 2.5.0
-  Excludes:
+  Exclude:
     - 'bin/**/*'
     - 'spec/support/**/**'
 
@@ -15,6 +15,7 @@ Metrics/LineLength:
   Exclude:
     - "**/*_spec.rb"
     - "**/*_docs.rb"
+    - 'db/schema.rb'
 
 Metrics/MethodLength:
   Severity: warning
@@ -22,16 +23,19 @@ Metrics/MethodLength:
   Max: 20
   Exclude:
     - 'db/migrate/**'
+    - 'db/schema.rb'
 
 Metrics/ModuleLength:
   Exclude:
     - '**/*_spec.rb'
     - "**/*_docs.rb"
+    - 'db/schema.rb'
 
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
     - "**/*_docs.rb"
+    - 'db/schema.rb'
 
 Metrics/AbcSize:
   Exclude:
