@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :accounts, dependent: :destroy
+  has_many :transactions, dependent: :destroy
 
   validates_presence_of :email, :password_digest
   validates :email, format: { with: EMAIL_REGEXP }, uniqueness: true
