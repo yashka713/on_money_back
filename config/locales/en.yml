@@ -2,6 +2,11 @@ en:
   user:
     errors:
       forbidden: You are not authorized to access this page.
+  account:
+    errors:
+      accounts_doesnt_match: Accounts currencies doesn't match
+      accounts_match: Accounts matches
+
   currency:
     errors:
       unknown_currency: Unknown currency
