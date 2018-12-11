@@ -19,13 +19,15 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 RSpec.configure do |config|
   DatabaseCleaner[:active_record].strategy = :truncation
 
-  config.before(:each) do
+  config.before(:suite) do
     DatabaseCleaner[:active_record].start
   end
 
-  config.after(:each) do
+  config.after(:suite) do
     DatabaseCleaner[:active_record].clean
   end
+
+  config.use_transactional_fixtures = true
 
   config.infer_spec_type_from_file_location!
 

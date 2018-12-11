@@ -6,6 +6,8 @@ RSpec.describe Account, type: :model do
   it { should define_enum_for(:status).with(Account::STATUSES) }
 
   it { should belong_to(:user) }
+  it { should have_many(:charges) }
+  it { should have_many(:profits) }
 
   it { should validate_numericality_of(:balance).allow_nil }
   it { should validate_presence_of(:name) }
