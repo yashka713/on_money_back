@@ -2,14 +2,21 @@ en:
   user:
     errors:
       forbidden: You are not authorized to access this page.
+
   account:
     errors:
       accounts_doesnt_match: Accounts currencies doesn't match
       accounts_match: Accounts matches
 
+  category:
+    errors:
+      type_changed: Category type can't be changed
+      max_amount_riched: Maximum amount of categoris reached
+
   currency:
     errors:
       unknown_currency: Unknown currency
+
   activerecord:
     errors:
       models:
@@ -18,6 +25,7 @@ en:
             password:
               blank: Must be 6 or more characters, at least one upper case and one number.
               format: Must be 6 or more characters, at least one upper case and one number.
+
   errors:
     messages:
       invalid_date: "is not a valid date"
