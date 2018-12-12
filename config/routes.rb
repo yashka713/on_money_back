@@ -21,6 +21,12 @@ Rails.application.routes.draw do
       resources :docs, only: :index
 
       resources :transfers
+
+      resources :categories, only: %i[index create show update destroy] do
+        collection do
+          get :types
+        end
+      end
     end
   end
 end
