@@ -13,6 +13,7 @@ require 'shoulda/matchers'
 
 ENV['AUTH_SECRET'] = 'test'
 ENV['TOKEN_LIFETIME'] = '100'
+ENV['MAX_CATEGORY_AMOUNT'] = '10'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
