@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :transfer, class: Transaction do
     operation_type :transfer
-    amount 100
+    from_amount 100
+    to_amount 100
     note 'Test'
     date Time.now
     association :user, factory: :user

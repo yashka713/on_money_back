@@ -23,6 +23,10 @@ module Docs
           note: {
             type: :string,
             example: 'Test'
+          },
+          rate: {
+            type: :float,
+            example: 1.35
           }
     end
   end

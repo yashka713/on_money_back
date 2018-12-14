@@ -43,7 +43,7 @@ module Api
       private
 
       def transfer_params
-        params.require(:transfer).permit(:date, :amount, :from, :to, :note)
+        params.require(:transfer).permit(:date, :amount, :from, :to, :note, :rate)
       end
 
       def set_transaction
