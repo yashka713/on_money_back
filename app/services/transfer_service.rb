@@ -4,6 +4,10 @@ class TransferService < BaseService
   def initialize(transaction, params = {})
     @transaction = transaction
     @params = params
+
+    @chargable = Account.find_by(id: @params[:from])
+    @profitable = Account.find_by(id: @params[:to])
+
     @errors = ActiveModel::Errors.new(self)
   end
 
@@ -41,8 +45,8 @@ class TransferService < BaseService
   private
 
   def set_previous_account_balance
-    @transaction.profitable.update!(balance: charge_balance(@transaction.profitable).to_f)
-    @transaction.chargeable.update!(balance: profit_balance(@transaction.chargeable).to_f)
+    @transaction.profitable.update!(balance: charge_balance(@transaction.profitable, @transaction.to_amount).to_f)
+    @transaction.chargeable.update!(balance: profit_balance(@transaction.chargeable, @transaction.from_amount).to_f)
   end
 
   def change_account_balance
@@ -52,19 +56,40 @@ class TransferService < BaseService
 
   def transfer_attributes
     {
-      chargeable: Account.find(@params[:from]),
-      profitable: Account.find(@params[:to]),
-      amount: @params[:amount],
-      date: @params[:date],
-      note: @params[:note]
+      chargeable: @chargable,
+      profitable: @profitable,
+      from_amount: @params[:amount],
+      to_amount: rateable_amount,
+      date: @params[:date] || @transaction.date,
+      note: @params[:note] || @transaction.note
     }
   end
 
-  def charge_balance(account, amount = @transaction.amount)
+  def charge_balance(account, amount = @transaction.from_amount)
     Money.from_amount(account.balance, account.currency) - Money.from_amount(amount, account.currency)
   end
 
-  def profit_balance(account, amount = @transaction.amount)
+  def profit_balance(account, amount = @transaction.to_amount)
     Money.from_amount(account.balance, account.currency) + Money.from_amount(amount, account.currency)
+  end
+
+  def rateable_amount
+    return @params[:amount] if currencies_the_same?
+    return (@params[:amount].to_f * @params[:rate].to_f) if !currencies_the_same? && valid_rate?
+
+    empty_rate_error
+  end
+
+  def empty_rate_error
+    @transaction.errors[:base] << I18n.t('account.errors.rate.empty')
+    raise ActiveRecord::Rollback
+  end
+
+  def valid_rate?
+    @params.include?(:rate) && !@params[:rate].try(:zero?)
+  end
+
+  def currencies_the_same?
+    @chargable.currency == @profitable.currency
   end
 end

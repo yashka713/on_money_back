@@ -5,7 +5,8 @@ en:
 
   account:
     errors:
-      accounts_doesnt_match: Accounts currencies doesn't match
+      rate:
+        empty: Currency exchange rate can't be 0, string or empty
       accounts_match: Accounts matches
 
   category:
