@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_181_211_133_356) do
+ActiveRecord::Schema.define(version: 20_181_213_083_257) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -41,9 +41,10 @@ ActiveRecord::Schema.define(version: 20_181_211_133_356) do
     t.bigint 'profitable_id'
     t.bigint 'user_id'
     t.integer 'operation_type'
-    t.float 'amount'
+    t.float 'from_amount'
     t.string 'note'
     t.datetime 'date'
+    t.float 'to_amount'
     t.index %w[chargeable_type chargeable_id], name: 'index_transactions_on_chargeable_type_and_chargeable_id'
     t.index %w[profitable_type profitable_id], name: 'index_transactions_on_profitable_type_and_profitable_id'
     t.index ['user_id'], name: 'index_transactions_on_user_id'
