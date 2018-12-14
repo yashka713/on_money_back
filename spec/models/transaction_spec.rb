@@ -16,26 +16,14 @@ RSpec.describe Transaction, type: :model do
   it { should belong_to(:user) }
 
   it { should validate_presence_of(:date) }
-  it { should validate_presence_of(:amount) }
 
-  it { should_not allow_value(Time.now + 1.day).for(:date) }
+  it { should validate_presence_of(:to_amount) }
+  it { should validate_presence_of(:from_amount) }
+
   it { should allow_value(Time.now).for(:date) }
   it { should allow_value(Time.now + 1).for(:date) }
 
   it { expect(valid_transfer).to be_valid }
-
-  context 'match_accounts_currency' do
-    let(:invalid_transfer) do
-      FactoryBot.build(:transfer, chargeable: chargeable_USD, profitable: profitable_EUR, user: user)
-    end
-
-    it { expect(invalid_transfer).to_not be_valid }
-
-    it 'should return error' do
-      invalid_transfer.save
-      expect(full_messages(invalid_transfer)).to match(/#{I18n.t('account.errors.accounts_doesnt_match')}/)
-    end
-  end
 
   context 'the_same_accounts' do
     let(:invalid_transfer) do
@@ -54,5 +42,19 @@ RSpec.describe Transaction, type: :model do
     let(:note_empty) { valid_transfer.write_attribute(:note, "    \t \n ") }
 
     it { expect(valid_transfer.save).to be_truthy }
+  end
+
+  context 'date_cannot_be_in_the_future' do
+    let(:invalid_transfer) do
+      FactoryBot.build(:transfer, date: Time.now + 1.day)
+    end
+
+    it { expect(invalid_transfer).to_not be_valid }
+
+    it 'should return error' do
+      invalid_transfer.save
+      message = full_messages(invalid_transfer)
+      expect(message).to match(/#{I18n.t('errors.messages.on_or_before', restriction: 'current day')}/)
+    end
   end
 end

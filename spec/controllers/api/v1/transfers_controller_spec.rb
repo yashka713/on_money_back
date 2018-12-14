@@ -12,8 +12,7 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
       create_list :transfer, 10,
                   profitable: profitable,
                   chargeable: chargeable,
-                  user: user,
-                  amount: (1...200).to_a.sample
+                  user: user
     end
 
     before { get :index }
@@ -44,7 +43,7 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
         expect(data['id'].to_i).to eq(transaction.id)
         expect(data['type']).to eq('transactions')
         expect(data['attributes']['operation_type']).to eq('transfer')
-        expect(data['attributes']['amount'].to_f).to eq(transaction.amount)
+        expect(data['attributes']['from_amount'].to_f).to eq(transaction.from_amount)
         expect(data['attributes']['note']).to eq(transaction.note)
         expect(data['attributes']['status']).to eq('active')
         expect(data['attributes']['date']).to eq(transaction.date.strftime('%F'))
@@ -66,40 +65,64 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
 
   context 'create' do
     context 'valid' do
-      let(:valid_params) { FactoryBot.attributes_for(:transfer, to: profitable, from: chargeable, user: user) }
-
-      context 'increment' do
-        it 'Transaction count by 1' do
-          expect do
-            post :create, params: { transfer: valid_params }
-          end.to change { Transaction.count }.by(1)
-        end
-      end
-
-      context 'response' do
-        before { post :create, params: { transfer: valid_params } }
-
-        it { expect(response).to have_http_status(:created) }
-
-        it 'should be serialized' do
-          data = parsed_data_from_body
-
-          expect(data['type']).to eq('transactions')
-          expect(data['attributes']['operation_type']).to eq('transfer')
-          expect(data['attributes']['amount'].to_f).to eq(valid_params[:amount])
-          expect(data['attributes']['note']).to eq(valid_params[:note])
-          expect(data['attributes']['status']).to eq('active')
-          expect(data['attributes']['date']).to eq(valid_params[:date].strftime('%F'))
+      context 'when currencies the same' do
+        let(:valid_params) do
+          FactoryBot.attributes_for(:transfer, to: profitable, from: chargeable, user: user, amount: 100)
         end
 
-        it { expect(parsed_body).to include('included') }
+        context 'increment' do
+          it 'Transaction count by 1' do
+            expect do
+              post :create, params: { transfer: valid_params }
+            end.to change { Transaction.count }.by(1)
+          end
+        end
 
-        it 'define accounts for transfers' do
-          chargeable_acc = parsed_body['included'].first
-          profitable_acc = parsed_body['included'].last
+        context 'response' do
+          before { post :create, params: { transfer: valid_params } }
 
-          expect(profitable_acc['id']).to eq(profitable.id.to_s)
-          expect(chargeable_acc['id']).to eq(chargeable.id.to_s)
+          it { expect(response).to have_http_status(:created) }
+
+          it 'should be serialized' do
+            data = parsed_data_from_body
+
+            expect(data['type']).to eq('transactions')
+            expect(data['attributes']['operation_type']).to eq('transfer')
+            expect(data['attributes']['from_amount'].to_f).to eq(valid_params[:from_amount])
+            expect(data['attributes']['note']).to eq(valid_params[:note])
+            expect(data['attributes']['status']).to eq('active')
+            expect(data['attributes']['date']).to eq(valid_params[:date].strftime('%F'))
+          end
+
+          it { expect(parsed_body).to include('included') }
+
+          it 'define accounts for transfers' do
+            chargeable_acc = parsed_body['included'].first
+            profitable_acc = parsed_body['included'].last
+
+            expect(profitable_acc['id']).to eq(profitable.id.to_s)
+            expect(chargeable_acc['id']).to eq(chargeable.id.to_s)
+          end
+        end
+
+        context 'when currencies different' do
+          let!(:profitable_eur) { create :account, user_id: user.id, currency: 'EUR' }
+
+          let(:valid_params) do
+            FactoryBot.attributes_for(:transfer, to: profitable_eur, from: chargeable, user: user, amount: 100, rate: 2)
+          end
+
+          before { post :create, params: { transfer: valid_params } }
+
+          it { expect(response).to have_http_status(:created) }
+
+          it 'define accounts for transfers' do
+            chargeable_acc = parsed_body['included'].first
+            profitable_acc = parsed_body['included'].last
+
+            expect(profitable_acc['id']).to eq(profitable_eur.id.to_s)
+            expect(chargeable_acc['id']).to eq(chargeable.id.to_s)
+          end
         end
       end
     end
@@ -133,7 +156,7 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
 
         expect(data['type']).to eq('transactions')
         expect(data['attributes']['operation_type']).to eq('transfer')
-        expect(data['attributes']['amount'].to_f).to eq(update_params[:amount])
+        expect(data['attributes']['from_amount'].to_f).to eq(update_params[:amount])
         expect(data['attributes']['note']).to eq(update_params[:note])
         expect(data['attributes']['status']).to eq('active')
         expect(data['attributes']['date']).to eq(update_params[:date].strftime('%F'))
@@ -164,7 +187,7 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
       expect(data['id']).to eq(transfer.id.to_s)
       expect(data['type']).to eq('transactions')
       expect(data['attributes']['operation_type']).to eq('transfer')
-      expect(data['attributes']['amount'].to_f).to eq(transfer.amount)
+      expect(data['attributes']['from_amount'].to_f).to eq(transfer.from_amount)
       expect(data['attributes']['note']).to eq(transfer.note)
       expect(data['attributes']['status']).to eq('active')
       expect(data['attributes']['date']).to eq(transfer.date.strftime('%F'))
@@ -203,7 +226,7 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
         expect(data['id']).to eq(transfer.id.to_s)
         expect(data['type']).to eq('transactions')
         expect(data['attributes']['operation_type']).to eq('transfer')
-        expect(data['attributes']['amount'].to_f).to eq(transfer.amount)
+        expect(data['attributes']['from_amount'].to_f).to eq(transfer.from_amount)
         expect(data['attributes']['note']).to eq(transfer.note)
         expect(data['attributes']['status']).to eq('deleted')
         expect(data['attributes']['date']).to eq(transfer.date.strftime('%F'))
