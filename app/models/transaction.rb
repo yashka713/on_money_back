@@ -7,35 +7,32 @@ class Transaction < ApplicationRecord
   belongs_to :profitable, polymorphic: true
   belongs_to :user
 
-  validates :date, :amount, presence: true
-  # validates date using "validates_timeliness" gem
-  validates_date :date, on_or_before: -> { Date.current }
+  validates :date, :from_amount, :to_amount, presence: true
 
-  validate :match_accounts_currency, if: :operation_transfer
   validate :the_same_accounts, if: :operation_transfer
-  validate :note_is_not_empty, if: :operation_transfer, on: :create
+  validate :date_cannot_be_in_the_future
 
   scope :last_transfers, ->(user) { user.transactions.where(operation_type: :transfer).order(date: :desc).last(5) }
+
+  validate :note_is_not_empty, if: :operation_transfer
 
   private
 
   def note_is_not_empty
-    self.note = nil if note.nil? || note.squish.empty?
+    self.note = note.squish
   end
 
   def operation_transfer
     operation_type == 'transfer'
   end
 
-  def match_accounts_currency
-    return if chargeable.currency.eql? profitable.currency
-
-    errors[:base] << I18n.t('account.errors.accounts_doesnt_match')
-  end
-
   def the_same_accounts
     return if chargeable.id != profitable.id
 
     errors[:base] << I18n.t('account.errors.accounts_match')
+  end
+
+  def date_cannot_be_in_the_future
+    errors[:base] << I18n.t('errors.messages.on_or_before', restriction: 'current day') if date.present? && date.future?
   end
 end
