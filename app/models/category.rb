@@ -1,19 +1,27 @@
 class Category < ApplicationRecord
   TYPES = %w[charge profit].freeze
+  STATUSES = %w[active hidden].freeze
 
   enum type_of: TYPES
+  enum status: STATUSES
 
   belongs_to :user
 
   validates :name, length: { maximum: 25 }, presence: true
   validates :note, length: { maximum: 100 }, allow_nil: true
+
   validates :type_of, inclusion: { in: TYPES }, presence: true
+  validates :status, inclusion: { in: STATUSES }, presence: true
 
   validate :type_not_changeable, on: :update
   validate :max_category_amount, on: :create
 
   scope :charges_categories, ->(user) { where(type_of: 'charge', user_id: user.id) }
   scope :profits_categories, ->(user) { where(type_of: 'profit', user_id: user.id) }
+
+  def destroy(params)
+    CategoryDestroyerService.new(self, params).destroy
+  end
 
   private
 
