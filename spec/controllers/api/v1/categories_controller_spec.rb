@@ -139,4 +139,20 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
       expect(data['attributes']).to eq({})
     end
   end
+
+  context 'destroy' do
+    context 'responce' do
+      it 'should responds with ok' do
+        delete :destroy, params: { id: category.id, type: 'hide' }
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    it 'should not change Categories count' do
+      expect do
+        delete :destroy, params: { id: category.id, type: 'hide' }
+      end.not_to change(Category, :count)
+    end
+  end
 end
