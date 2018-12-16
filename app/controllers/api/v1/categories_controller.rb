@@ -1,7 +1,8 @@
 module Api
   module V1
     class CategoriesController < BaseController
-      before_action :set_category, only: %i[show update]
+      before_action :set_category, only: %i[show update destroy]
+      before_action :render_404_if_hidden, only: %i[show update destroy]
 
       def index
         categories = if params[:type_of]
@@ -34,6 +35,13 @@ module Api
         end
       end
 
+      def destroy
+        responce = @category.destroy(params)
+        return render_success responce if @category.hidden?
+
+        render_jsonapi_errors @category
+      end
+
       def types
         types = {
           data: ActiveModel::Serializer::CollectionSerializer.new(Category::TYPES,
@@ -54,6 +62,10 @@ module Api
 
       def set_category
         @category = Category.find(params[:id])
+      end
+
+      def render_404_if_hidden
+        render_404 if @category.hidden?
       end
     end
   end
