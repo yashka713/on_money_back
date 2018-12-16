@@ -233,6 +233,77 @@ module Docs
         end
       end
     end
+
+    operation :delete do
+      key :description, 'Destroy category'
+      key :summary, 'Destroy category'
+      key :operationId, 'destroy'
+      key :produces, %w[application/json]
+      key :tags, %w[Category]
+
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'Category Id'
+        key :type, :integer
+        key :required, true
+      end
+
+      parameter do
+        key :'$ref', :TokenParam
+        schema do
+          key :'$ref', :TokenExample
+        end
+      end
+
+      parameter do
+        key :name, :type
+        key :in, :query
+        key :description, 'operation type(hide full change)'
+        key :type, :string
+        key :required, true
+        key :default, 'hide'
+      end
+
+      response 200 do
+        key :description, 'Category was destroyed or hidden'
+        schema do
+          {}
+        end
+      end
+
+      response 401 do
+        key :description, 'Error, when jwt is incorrect'
+        schema do
+          key :type, :object
+          key :'$ref', :Unauthorized
+        end
+      end
+
+      response 404 do
+        key :description, 'Error, when ID is incorrect'
+        schema do
+          key :type, :object
+          key :'$ref', :NotFound
+        end
+      end
+
+      response 422 do
+        key :description, 'Error, when type is incorrect or empty'
+        schema do
+          key :type, :object
+          property :errors do
+            key :type, :array
+            items do
+              property :detail, type: :string, example: 'Check available types of destroying'
+              property :source, type: :object do
+                property :pointer, type: :string, example: '/data/attributes/base'
+              end
+            end
+          end
+        end
+      end
+    end
   end
 
   swagger_path '/api/v1/categories/types' do
