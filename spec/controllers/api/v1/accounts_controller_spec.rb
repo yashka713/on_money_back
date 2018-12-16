@@ -6,9 +6,18 @@ RSpec.describe Api::V1::AccountsController, type: :controller do
 
   before { login_user(user) }
 
+  context 'render_404_if_hidden' do
+    let(:hidden_account) { create :account, user_id: user.id, status: 'hidden' }
+    before { get :show, params: { id: hidden_account.id } }
+
+    it 'responds with 404' do
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   context 'index' do
     let!(:active_accounts) { create_list :account, 10, user_id: user.id }
-    let!(:deleted_accounts) { create_list :account, 10, user_id: user.id, status: :deleted }
+    let!(:deleted_accounts) { create_list :account, 10, user_id: user.id, status: :hidden }
 
     before { get :index }
 

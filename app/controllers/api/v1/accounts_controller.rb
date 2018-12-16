@@ -2,6 +2,7 @@ module Api
   module V1
     class AccountsController < BaseController
       before_action :set_account, except: %i[index create]
+      before_action :render_404_if_hidden, only: %i[show update destroy]
 
       def index
         render_success Account.active_accounts(current_user)
@@ -45,6 +46,10 @@ module Api
 
       def set_account
         @account = Account.find(params[:id])
+      end
+
+      def render_404_if_hidden
+        render_404 if @account.hidden?
       end
     end
   end

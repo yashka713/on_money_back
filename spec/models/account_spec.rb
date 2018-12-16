@@ -17,7 +17,7 @@ RSpec.describe Account, type: :model do
     let(:account) { create(:account, user: user) }
 
     it 'should update status to :deleted' do
-      expect { account.destroy }.to change { account.status }.from('active').to('deleted')
+      expect { account.destroy }.to change { account.status }.from('active').to('hidden')
     end
   end
 

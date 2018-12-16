@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  STATUSES = %i[active deleted].freeze
+  STATUSES = %i[active hidden].freeze
 
   CURRENCIES_LIST = Money::Currency.stringified_keys.to_a.map(&:upcase)
 
@@ -19,7 +19,7 @@ class Account < ApplicationRecord
   before_create :set_start_account_amount
 
   def destroy
-    deleted!
+    hidden!
   end
 
   private
