@@ -74,6 +74,11 @@ docker-compose up --build
 
 Navigate to [http://localhost:3000](http://localhost:3000) or run `curl localhost:3000/status`.
 
+Docs
+-------------
+
+`Swagger` docs available [here](http://localhost:3000/api/v1/docs)
+
 Tests
 -------------
 
