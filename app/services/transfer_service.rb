@@ -1,11 +1,13 @@
 class TransferService < BaseService
   attr_accessor :transaction, :errors
 
+  include MoneyOperationable
+
   def initialize(transaction, params = {})
     @transaction = transaction
     @params = params
 
-    @chargable = Account.find_by(id: @params[:from])
+    @chargeable = Account.find_by(id: @params[:from])
     @profitable = Account.find_by(id: @params[:to])
 
     @errors = ActiveModel::Errors.new(self)
@@ -27,7 +29,7 @@ class TransferService < BaseService
       set_previous_account_balance
 
       # set new attributes
-      @transaction.update!(transfer_attributes)
+      raise ActiveRecord::Rollback unless @transaction.update!(transfer_attributes)
 
       # update accounts
       change_account_balance
@@ -56,21 +58,13 @@ class TransferService < BaseService
 
   def transfer_attributes
     {
-      chargeable: @chargable,
+      chargeable: @chargeable,
       profitable: @profitable,
       from_amount: @params[:amount],
       to_amount: rateable_amount,
       date: @params[:date] || @transaction.date,
       note: @params[:note] || @transaction.note
     }
-  end
-
-  def charge_balance(account, amount = @transaction.from_amount)
-    Money.from_amount(account.balance, account.currency) - Money.from_amount(amount, account.currency)
-  end
-
-  def profit_balance(account, amount = @transaction.to_amount)
-    Money.from_amount(account.balance, account.currency) + Money.from_amount(amount, account.currency)
   end
 
   def rateable_amount
@@ -90,6 +84,6 @@ class TransferService < BaseService
   end
 
   def currencies_the_same?
-    @chargable.currency == @profitable.currency
+    @chargeable.currency == @profitable.currency
   end
 end
