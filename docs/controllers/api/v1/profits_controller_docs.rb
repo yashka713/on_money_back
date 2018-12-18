@@ -1,13 +1,13 @@
 module Docs
   include Swagger::Blocks
 
-  swagger_path '/api/v1/transfers' do
+  swagger_path '/api/v1/profits' do
     operation :get do
-      key :description, 'Show last money transfers'
-      key :summary, 'Show last money transfers'
+      key :description, 'Show last profit transactions'
+      key :summary, 'Show last profit transactions'
       key :operationId, 'index'
       key :produces, %w[application/json]
-      key :tags, %w[Transfer]
+      key :tags, %w[Profit]
 
       parameter do
         key :'$ref', :TokenParam
@@ -17,13 +17,9 @@ module Docs
       end
 
       response 200 do
-        key :description, 'Transfers list'
+        key :description, 'Profit transaction list'
         schema do
-          key :type, :array
-          items do
-            key :type, :object
-            key :'$ref', :TransferItem
-          end
+          key :'$ref', :ListOfProfitsTransactions
         end
       end
 
@@ -37,20 +33,20 @@ module Docs
     end
 
     operation :post do
-      key :description, 'Create a new money transfer'
-      key :summary, 'Create a new money transfer'
+      key :description, 'Create a new profit transaction'
+      key :summary, 'Create a new profit transaction'
       key :operationId, 'create'
       key :produces, %w[application/json]
-      key :tags, %w[Transfer]
+      key :tags, %w[Profit]
 
       parameter do
-        key :name, :transfer
+        key :name, :profit
         key :in, :body
-        key :description, 'Transfer credentials'
+        key :description, 'Profit transaction credentials'
         key :type, :json
         key :required, true
         schema do
-          key :'$ref', :TransferCreateCredentials
+          key :'$ref', :ProfitCreateCredentials
         end
       end
 
@@ -62,9 +58,9 @@ module Docs
       end
 
       response 201 do
-        key :description, 'New money transfer was created'
+        key :description, 'New profit transaction was created'
         schema do
-          key :'$ref', :TransferItem
+          key :'$ref', :ProfitItem
         end
       end
 
@@ -83,9 +79,14 @@ module Docs
           property :errors do
             key :type, :array
             items do
-              property :detail, type: :string, example: 'is invalid'
-              property :source, type: :object do
-                property :pointer, type: :string, example: '/data/attributes/email'
+              property :detail,
+                       type: :string,
+                       example: 'Allowed operation where profitable is Account and chargable is Category'
+              property :source,
+                       type: :object do
+                property :pointer,
+                         type: :string,
+                         example: '/data/attributes/base'
               end
             end
           end
@@ -94,18 +95,18 @@ module Docs
     end
   end
 
-  swagger_path '/api/v1/transfers/{id}' do
+  swagger_path '/api/v1/profits/{id}' do
     operation :get do
-      key :description, 'Show details for money transfer'
-      key :summary, 'Show details for money transfer'
+      key :description, 'Show details for profit transaction'
+      key :summary, 'Show details for profit transaction'
       key :operationId, 'show'
       key :produces, %w[application/json]
-      key :tags, %w[Transfer]
+      key :tags, %w[Profit]
 
       parameter do
         key :name, :id
         key :in, :path
-        key :description, 'Transfer Id'
+        key :description, 'Profit transaction Id'
         key :type, :integer
         key :required, true
       end
@@ -118,9 +119,9 @@ module Docs
       end
 
       response 200 do
-        key :description, 'Show money transfer detail'
+        key :description, 'Show profit transaction detail'
         schema do
-          key :'$ref', :TransferItem
+          key :'$ref', :ProfitItem
         end
       end
 
@@ -142,11 +143,11 @@ module Docs
     end
 
     operation :delete do
-      key :description, 'Destroy money transfer'
-      key :summary, 'Destroy money transfer'
+      key :description, 'Destroy profit transaction'
+      key :summary, 'Destroy profit transaction'
       key :operationId, 'destroy'
       key :produces, %w[application/json]
-      key :tags, %w[Transfer]
+      key :tags, %w[Profit]
 
       parameter do
         key :name, :id
@@ -164,9 +165,9 @@ module Docs
       end
 
       response 200 do
-        key :description, 'Money transfer was destroyed'
+        key :description, 'Profit transaction was destroyed'
         schema do
-          key :'$ref', :TransferItem
+          key :'$ref', :ProfitItem
         end
       end
 
@@ -188,16 +189,16 @@ module Docs
     end
 
     operation :patch do
-      key :description, 'Update money transfer'
-      key :summary, 'Update money transfer'
+      key :description, 'Update profit transaction'
+      key :summary, 'Update profit transaction'
       key :operationId, 'update'
       key :produces, %w[application/json]
-      key :tags, %w[Transfer]
+      key :tags, %w[Profit]
 
       parameter do
         key :name, :id
         key :in, :path
-        key :description, 'Transfer Id'
+        key :description, 'Profit transaction Id'
         key :type, :integer
         key :required, true
       end
@@ -210,20 +211,20 @@ module Docs
       end
 
       parameter do
-        key :name, :transfer
+        key :name, :profit
         key :in, :body
-        key :description, 'Transfer credentials'
+        key :description, 'Profit transaction credentials'
         key :type, :json
         key :required, true
         schema do
-          key :'$ref', :TransferCreateCredentials
+          key :'$ref', :ProfitCreateCredentials
         end
       end
 
       response 200 do
-        key :description, 'Money transfer was updated'
+        key :description, 'Profit transaction was updated'
         schema do
-          key :'$ref', :TransferItem
+          key :'$ref', :ProfitItem
         end
       end
 

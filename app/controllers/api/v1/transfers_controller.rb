@@ -47,7 +47,7 @@ module Api
       end
 
       def set_transaction
-        @transaction = Transaction.find(params[:id])
+        @transaction = Transaction.find_by!(id: params[:id], operation_type: :transfer)
       end
     end
   end

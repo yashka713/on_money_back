@@ -1,4 +1,7 @@
 class Transaction < ApplicationRecord
+  include Transferable
+  include Profitable
+
   TYPES = %i[transfer charge profit].freeze
 
   enum operation_type: TYPES
@@ -9,30 +12,24 @@ class Transaction < ApplicationRecord
 
   validates :date, :from_amount, :to_amount, presence: true
 
-  validate :the_same_accounts, if: :operation_transfer
   validate :date_cannot_be_in_the_future
 
-  scope :last_transfers, ->(user) { user.transactions.where(operation_type: :transfer).order(date: :desc).last(5) }
-
-  validate :note_is_not_empty, if: :operation_transfer
+  validate :note_is_not_empty
+  validate :operation_between_categories
 
   private
 
   def note_is_not_empty
-    self.note = note.squish
-  end
-
-  def operation_transfer
-    operation_type == 'transfer'
-  end
-
-  def the_same_accounts
-    return if chargeable.id != profitable.id
-
-    errors[:base] << I18n.t('account.errors.accounts_match')
+    self.note = note.try(:squish)
   end
 
   def date_cannot_be_in_the_future
     errors[:base] << I18n.t('errors.messages.on_or_before', restriction: 'current day') if date.present? && date.future?
+  end
+
+  def operation_between_categories
+    return unless chargeable_type == 'Category' && profitable_type == 'Category'
+
+    errors[:base] << I18n.t('transactions.errors.operation_not_allowed')
   end
 end

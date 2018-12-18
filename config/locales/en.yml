@@ -9,6 +9,12 @@ en:
         empty: Currency exchange rate can't be 0, string or empty
       accounts_match: Accounts matches
 
+  transactions:
+    errors:
+      transfer_not_allowed: Allowed operation only between two accounts
+      profit_not_allowed: Allowed operation where profitable is Account and chargable is Category
+      operation_not_allowed: Operation between two Categories don't allowed
+
   category:
     errors:
       type_changed: Category type can't be changed
