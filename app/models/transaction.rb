@@ -14,12 +14,14 @@ class Transaction < ApplicationRecord
 
   validate :date_cannot_be_in_the_future
 
-  validate :note_is_not_empty
   validate :operation_between_categories
+  validate :owner, if: :chargeable_and_profitable_changed?
+
+  before_save :squish_note
 
   private
 
-  def note_is_not_empty
+  def squish_note
     self.note = note.try(:squish)
   end
 
@@ -31,5 +33,21 @@ class Transaction < ApplicationRecord
     return unless chargeable_type == 'Category' && profitable_type == 'Category'
 
     errors[:base] << I18n.t('transactions.errors.operation_not_allowed')
+  end
+
+  def owner
+    return if author_owner?
+
+    errors[:base] << I18n.t('transactions.errors.not_owner',
+                            chargeable: chargeable.class.name.to_s,
+                            profitable: profitable.class.name.to_s)
+  end
+
+  def chargeable_and_profitable_changed?
+    (changes.keys.include? 'chargeable_id') || (changes.keys.include? 'profitable_id')
+  end
+
+  def author_owner?
+    (chargeable.user == user) && (profitable.user == user)
   end
 end

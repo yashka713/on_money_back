@@ -1,7 +1,8 @@
 module Api
   module V1
     class CategoriesController < BaseController
-      before_action :set_category, only: %i[show update destroy]
+      load_and_authorize_resource :category, except: %i[index create types]
+
       before_action :render_404_if_hidden, only: %i[show update destroy]
 
       def index
@@ -58,10 +59,6 @@ module Api
 
       def update_category_params
         params.require(:category).permit(:name, :note)
-      end
-
-      def set_category
-        @category = Category.find(params[:id])
       end
 
       def render_404_if_hidden

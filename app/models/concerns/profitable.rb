@@ -2,7 +2,6 @@ module Profitable
   extend ActiveSupport::Concern
 
   included do
-    # TODO: add "cancancan" checking, that it is a current_user category & account
     validate :profits_bills, if: :operation_profit
 
     scope :last_profits, ->(user) { user.transactions.where(operation_type: :profit).order(date: :desc).last(5) }

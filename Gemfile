@@ -8,6 +8,7 @@ end
 
 gem 'active_model_serializers'
 gem 'bcrypt', '~> 3.1.7'
+gem 'cancancan'
 gem 'jwt'
 gem 'money'
 gem 'pg', '>= 0.18', '< 2.0'
