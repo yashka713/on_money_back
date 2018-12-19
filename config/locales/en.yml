@@ -12,8 +12,9 @@ en:
   transactions:
     errors:
       transfer_not_allowed: Allowed operation only between two accounts
-      profit_not_allowed: Allowed operation where profitable is Account and chargable is Category
+      profit_not_allowed: Allowed operation where profitable is Account and chargeable is Category
       operation_not_allowed: Operation between two Categories don't allowed
+      not_owner: "You are not owner %{chargeable} or %{profitable}"
 
   category:
     errors:
