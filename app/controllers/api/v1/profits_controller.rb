@@ -1,7 +1,7 @@
 module Api
   module V1
     class ProfitsController < BaseController
-      before_action :set_transaction, only: %i[show update destroy]
+      load_and_authorize_resource :transaction, id_param: :id, except: %i[index create]
 
       def index
         render_success Transaction.last_profits(current_user), 200, include: { chargeable: {}, profitable: {} }
@@ -44,10 +44,6 @@ module Api
 
       def profit_params
         params.require(:profit).permit(:date, :amount, :from, :to, :note)
-      end
-
-      def set_transaction
-        @transaction = Transaction.find_by!(id: params[:id], operation_type: :profit)
       end
     end
   end

@@ -1,7 +1,7 @@
 module Api
   module V1
     class TransfersController < BaseController
-      before_action :set_transaction, only: %i[show update destroy]
+      load_and_authorize_resource :transaction, id_param: :id, except: %i[index create]
 
       def index
         render_success Transaction.last_transfers(current_user), 200, include: { chargeable: {}, profitable: {} }
@@ -44,10 +44,6 @@ module Api
 
       def transfer_params
         params.require(:transfer).permit(:date, :amount, :from, :to, :note, :rate)
-      end
-
-      def set_transaction
-        @transaction = Transaction.find_by!(id: params[:id], operation_type: :transfer)
       end
     end
   end
