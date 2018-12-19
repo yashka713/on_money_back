@@ -2,9 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
   let!(:user) { create(:user) }
+  let!(:other_user) { create(:user) }
+
   let(:chargeable_USD) { create(:account, user: user, currency: 'USD') }
+  let(:other_chargeable_USD) { create(:account, user: other_user, currency: 'USD') }
   let(:profitable_USD) { create(:account, user: user, currency: 'USD') }
   let(:profitable_EUR) { create(:account, user: user, currency: 'EUR') }
+
   let(:valid_transfer) do
     FactoryBot.build(:transfer, chargeable: chargeable_USD, profitable: profitable_USD, user: user)
   end
@@ -25,10 +29,32 @@ RSpec.describe Transaction, type: :model do
 
   it { expect(valid_transfer).to be_valid }
 
-  context 'note_is_not_empty' do
-    let(:note_empty) { valid_transfer.write_attribute(:note, "    \t \n ") }
+  context 'squish_note' do
+    let(:empty_string) { "    \t \n " }
 
-    it { expect(valid_transfer.save).to be_truthy }
+    it 'squish note before saving' do
+      expect do
+        valid_transfer.update(note: empty_string)
+      end.to change { valid_transfer.note }
+        .from(valid_transfer.note)
+        .to('')
+    end
+  end
+
+  context 'owner' do
+    context 'invalid' do
+      let(:invalid_params) do
+        FactoryBot.attributes_for(:transfer, chargeable: other_chargeable_USD, profitable: profitable_USD, user: user)
+      end
+
+      it 'should return error if user not owner of chargeable or profitable' do
+        error = I18n.t('transactions.errors.not_owner',
+                       chargeable: other_chargeable_USD.class.name.to_s,
+                       profitable: profitable_USD.class.name.to_s)
+        transaction = Transaction.create(invalid_params)
+        expect(transaction.errors.full_messages).to include(error)
+      end
+    end
   end
 
   context 'date_cannot_be_in_the_future' do
