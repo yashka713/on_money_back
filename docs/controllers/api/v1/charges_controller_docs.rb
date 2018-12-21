@@ -1,13 +1,13 @@
 module Docs
   include Swagger::Blocks
 
-  swagger_path '/api/v1/profits' do
+  swagger_path '/api/v1/charges' do
     operation :get do
-      key :description, 'Show last profit transactions'
-      key :summary, 'Show last profit transactions'
+      key :description, 'Show last charges transactions'
+      key :summary, 'Show last charges transactions'
       key :operationId, 'index'
       key :produces, %w[application/json]
-      key :tags, %w[Profit]
+      key :tags, %w[Charge]
 
       parameter do
         key :'$ref', :TokenParam
@@ -17,9 +17,9 @@ module Docs
       end
 
       response 200 do
-        key :description, 'Profit transaction list'
+        key :description, 'Charge transaction list'
         schema do
-          key :'$ref', :ListOfProfitsTransactions
+          key :'$ref', :ListOfChargesTransactions
         end
       end
 
@@ -33,20 +33,20 @@ module Docs
     end
 
     operation :post do
-      key :description, 'Create a new profit transaction'
-      key :summary, 'Create a new profit transaction'
+      key :description, 'Create a new charge transaction'
+      key :summary, 'Create a new charge transaction'
       key :operationId, 'create'
       key :produces, %w[application/json]
-      key :tags, %w[Profit]
+      key :tags, %w[Charge]
 
       parameter do
-        key :name, :profit
+        key :name, :charge
         key :in, :body
-        key :description, 'Profit transaction credentials'
+        key :description, 'Charge transaction credentials'
         key :type, :json
         key :required, true
         schema do
-          key :'$ref', :ProfitCreateCredentials
+          key :'$ref', :ChargeCreateCredentials
         end
       end
 
@@ -58,9 +58,9 @@ module Docs
       end
 
       response 201 do
-        key :description, 'New profit transaction was created'
+        key :description, 'New charge transaction was created'
         schema do
-          key :'$ref', :ProfitItem
+          key :'$ref', :ChargeItem
         end
       end
 
@@ -81,7 +81,7 @@ module Docs
             items do
               property :detail,
                        type: :string,
-                       example: 'Allowed operation where profitable is Account and chargable is Category'
+                       example: 'Category is not available for this operation'
               property :source,
                        type: :object do
                 property :pointer,
@@ -95,18 +95,18 @@ module Docs
     end
   end
 
-  swagger_path '/api/v1/profits/{id}' do
+  swagger_path '/api/v1/charges/{id}' do
     operation :get do
-      key :description, 'Show details for profit transaction'
-      key :summary, 'Show details for profit transaction'
+      key :description, 'Show details for charge transaction'
+      key :summary, 'Show details for charge transaction'
       key :operationId, 'show'
       key :produces, %w[application/json]
-      key :tags, %w[Profit]
+      key :tags, %w[Charge]
 
       parameter do
         key :name, :id
         key :in, :path
-        key :description, 'Profit transaction Id'
+        key :description, 'Charge transaction Id'
         key :type, :integer
         key :required, true
       end
@@ -119,63 +119,9 @@ module Docs
       end
 
       response 200 do
-        key :description, 'Show profit transaction detail'
+        key :description, 'Show charge transaction detail'
         schema do
-          key :'$ref', :ProfitItem
-        end
-      end
-
-      response 401 do
-        key :description, 'Error, when jwt is incorrect'
-        schema do
-          key :type, :object
-          key :'$ref', :Unauthorized
-        end
-      end
-
-      response 403 do
-        key :description, 'Error, when user is not owner of this transaction'
-        schema do
-          key :type, :object
-          key :'$ref', :Forbidden
-        end
-      end
-
-      response 404 do
-        key :description, 'Error, when ID is incorrect'
-        schema do
-          key :type, :object
-          key :'$ref', :NotFound
-        end
-      end
-    end
-
-    operation :delete do
-      key :description, 'Destroy profit transaction'
-      key :summary, 'Destroy profit transaction'
-      key :operationId, 'destroy'
-      key :produces, %w[application/json]
-      key :tags, %w[Profit]
-
-      parameter do
-        key :name, :id
-        key :in, :path
-        key :description, 'Transfer Id'
-        key :type, :integer
-        key :required, true
-      end
-
-      parameter do
-        key :'$ref', :TokenParam
-        schema do
-          key :'$ref', :TokenExample
-        end
-      end
-
-      response 200 do
-        key :description, 'Profit transaction was destroyed'
-        schema do
-          key :'$ref', :ProfitItem
+          key :'$ref', :ChargeItem
         end
       end
 
@@ -205,16 +151,16 @@ module Docs
     end
 
     operation :patch do
-      key :description, 'Update profit transaction'
-      key :summary, 'Update profit transaction'
+      key :description, 'Update charge transaction'
+      key :summary, 'Update charge transaction'
       key :operationId, 'update'
       key :produces, %w[application/json]
-      key :tags, %w[Profit]
+      key :tags, %w[Charge]
 
       parameter do
         key :name, :id
         key :in, :path
-        key :description, 'Profit transaction Id'
+        key :description, 'Charge transaction Id'
         key :type, :integer
         key :required, true
       end
@@ -227,20 +173,20 @@ module Docs
       end
 
       parameter do
-        key :name, :profit
+        key :name, :charge
         key :in, :body
-        key :description, 'Profit transaction credentials'
+        key :description, 'Charge transaction credentials'
         key :type, :json
         key :required, true
         schema do
-          key :'$ref', :ProfitCreateCredentials
+          key :'$ref', :ChargeCreateCredentials
         end
       end
 
       response 200 do
-        key :description, 'Profit transaction was updated'
+        key :description, 'Charge transaction was updated'
         schema do
-          key :'$ref', :ProfitItem
+          key :'$ref', :ChargeItem
         end
       end
 
@@ -281,6 +227,60 @@ module Docs
               end
             end
           end
+        end
+      end
+    end
+
+    operation :delete do
+      key :description, 'Destroy charge transaction'
+      key :summary, 'Destroy charge transaction'
+      key :operationId, 'destroy'
+      key :produces, %w[application/json]
+      key :tags, %w[Charge]
+
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'Charge transaction Id'
+        key :type, :integer
+        key :required, true
+      end
+
+      parameter do
+        key :'$ref', :TokenParam
+        schema do
+          key :'$ref', :TokenExample
+        end
+      end
+
+      response 200 do
+        key :description, 'Charge transaction was destroyed'
+        schema do
+          key :'$ref', :ChargeItem
+        end
+      end
+
+      response 401 do
+        key :description, 'Error, when jwt is incorrect'
+        schema do
+          key :type, :object
+          key :'$ref', :Unauthorized
+        end
+      end
+
+      response 403 do
+        key :description, 'Error, when user is not owner of this transaction'
+        schema do
+          key :type, :object
+          key :'$ref', :Forbidden
+        end
+      end
+
+      response 404 do
+        key :description, 'Error, when ID is incorrect'
+        schema do
+          key :type, :object
+          key :'$ref', :NotFound
         end
       end
     end

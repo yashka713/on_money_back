@@ -149,6 +149,14 @@ module Docs
         end
       end
 
+      response 403 do
+        key :description, 'Error, when user is not owner of this Category'
+        schema do
+          key :type, :object
+          key :'$ref', :Forbidden
+        end
+      end
+
       response 404 do
         key :description, 'Error, when ID is incorrect'
         schema do
@@ -206,6 +214,14 @@ module Docs
         schema do
           key :type, :object
           key :'$ref', :Unauthorized
+        end
+      end
+
+      response 403 do
+        key :description, 'Error, when user is not owner of this Category'
+        schema do
+          key :type, :object
+          key :'$ref', :Forbidden
         end
       end
 
@@ -277,6 +293,14 @@ module Docs
         schema do
           key :type, :object
           key :'$ref', :Unauthorized
+        end
+      end
+
+      response 403 do
+        key :description, 'Error, when user is not owner of this Category'
+        schema do
+          key :type, :object
+          key :'$ref', :Forbidden
         end
       end
 
