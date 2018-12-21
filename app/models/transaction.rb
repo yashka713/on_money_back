@@ -1,6 +1,7 @@
 class Transaction < ApplicationRecord
   include Transferable
   include Profitable
+  include Chargeable
 
   TYPES = %i[transfer charge profit].freeze
 
@@ -17,9 +18,17 @@ class Transaction < ApplicationRecord
   validate :operation_between_categories
   validate :owner, if: :chargeable_and_profitable_changed?
 
+  validate :attributes_active, if: :chargeable_and_profitable_changed?
+
   before_save :squish_note
 
   private
+
+  def attributes_active
+    return if chargeable.active? && profitable.active?
+
+    errors[:base] << I18n.t('transactions.errors.attributes_hidden')
+  end
 
   def squish_note
     self.note = note.try(:squish)
