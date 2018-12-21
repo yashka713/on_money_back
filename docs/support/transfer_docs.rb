@@ -48,9 +48,13 @@ module Docs
           key :type, :string
           key :example, 'transfer'
         end
-        property :amount do
+        property :from_amount do
           key :type, :integer
           key :example, 100
+        end
+        property :to_amount do
+          key :type, :integer
+          key :example, 200
         end
         property :note do
           key :type, :string

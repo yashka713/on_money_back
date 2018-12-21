@@ -1,7 +1,7 @@
 module Docs
-  swagger_schema :ProfitCreateCredentials do
-    key :required, %i[profit]
-    property :profit do
+  swagger_schema :ChargeCreateCredentials do
+    key :required, %i[charge]
+    property :charge do
       key :type, :object
       key :properties,
           from: {
@@ -27,7 +27,7 @@ module Docs
     end
   end
 
-  swagger_schema :ProfitItem do
+  swagger_schema :ChargeItem do
     property :data do
       key :type, :object
       property :id do
@@ -42,7 +42,7 @@ module Docs
         key :type, :object
         property :operation_type do
           key :type, :string
-          key :example, 'profit'
+          key :example, 'charge'
         end
         property :from_amount do
           key :type, :integer
@@ -77,7 +77,7 @@ module Docs
             end
             property :type do
               key :type, :string
-              key :example, 'categories'
+              key :example, 'accounts'
             end
           end
         end
@@ -91,7 +91,7 @@ module Docs
             end
             property :type do
               key :type, :string
-              key :example, 'accounts'
+              key :example, 'categories'
             end
           end
         end
@@ -106,7 +106,7 @@ module Docs
     end
   end
 
-  swagger_schema :ListOfProfitsTransactions do
+  swagger_schema :ListOfChargesTransactions do
     property :data do
       key :type, :array
       items do
@@ -123,7 +123,7 @@ module Docs
           key :type, :object
           property :operation_type do
             key :type, :string
-            key :example, 'profit'
+            key :example, 'charge'
           end
           property :from_amount do
             key :type, :integer
@@ -158,7 +158,7 @@ module Docs
               end
               property :type do
                 key :type, :string
-                key :example, 'categories'
+                key :example, 'accounts'
               end
             end
           end
@@ -172,7 +172,7 @@ module Docs
               end
               property :type do
                 key :type, :string
-                key :example, 'accounts'
+                key :example, 'categories'
               end
             end
           end

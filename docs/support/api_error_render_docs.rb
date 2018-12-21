@@ -40,7 +40,7 @@ module Docs
     property :errors do
       key :type, :array
       items do
-        property :detail, type: :string, example: I18n.t('user.forbidden')
+        property :detail, type: :string, example: I18n.t('user.errors.forbidden')
         property :source, type: :object do
           property :pointer, type: :string, example: 'forbidden'
         end

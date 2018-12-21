@@ -6,5 +6,6 @@ class Ability
     merge Abilities::CategoryAbility.new(user)
     merge Abilities::ProfitAbility.new(user)
     merge Abilities::TransferAbility.new(user)
+    merge Abilities::ChargeAbility.new(user)
   end
 end

@@ -1,21 +1,7 @@
 class TransferService < BaseService
-  attr_accessor :transaction, :errors
-
-  include MoneyOperationable
-
-  def initialize(transaction, params = {})
-    @transaction = transaction
-    @params = params
-
-    @chargeable = Account.find_by(id: @params[:from])
-    @profitable = Account.find_by(id: @params[:to])
-
-    @errors = ActiveModel::Errors.new(self)
-  end
-
   def create
     persist_with_transaction do
-      @transaction.assign_attributes(transfer_attributes)
+      @transaction.assign_attributes(transaction_attributes)
 
       raise ActiveRecord::Rollback unless @transaction.save
 
@@ -29,7 +15,7 @@ class TransferService < BaseService
       set_previous_account_balance
 
       # set new attributes
-      raise ActiveRecord::Rollback unless @transaction.update!(transfer_attributes)
+      raise ActiveRecord::Rollback unless @transaction.update!(transaction_attributes)
 
       # update accounts
       change_account_balance
@@ -56,15 +42,8 @@ class TransferService < BaseService
     @transaction.profitable.update!(balance: profit_balance(@transaction.profitable).to_f)
   end
 
-  def transfer_attributes
-    {
-      chargeable: @chargeable,
-      profitable: @profitable,
-      from_amount: @params[:amount],
-      to_amount: rateable_amount,
-      date: @params[:date] || @transaction.date,
-      note: @params[:note] || @transaction.note
-    }
+  def transaction_attributes
+    super.merge(to_amount: rateable_amount)
   end
 
   def rateable_amount

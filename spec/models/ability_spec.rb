@@ -5,9 +5,12 @@ RSpec.describe Ability, type: :model do
   let(:user) { create :user }
   let(:account_one) { create :account, user: owner }
   let(:account_two) { create :account, user: owner }
-  let(:category) { create :category, user: owner }
-  let(:profit) { create :profit, user: owner, chargeable: category, profitable: account_two }
+  let(:category_charge) { create :category, user_id: owner.id, type_of: 'charge' }
+  let(:category_profit) { create :category, user_id: owner.id, type_of: 'profit' }
+
   let(:transfer) { create :transfer, user: owner, chargeable: account_one, profitable: account_two }
+  let(:profit) { create :profit, user: owner, chargeable: category_profit, profitable: account_two }
+  let(:charge) { create :charge, user: owner, chargeable: account_one, profitable: category_charge }
 
   context 'for account,' do
     context 'owner' do
@@ -34,20 +37,41 @@ RSpec.describe Ability, type: :model do
     context 'owner' do
       subject(:ability) { Ability.new(owner) }
 
-      it { subject.can?(:update, category) }
-      it { subject.can?(:show, category) }
-      it { subject.can?(:destroy, category) }
+      it { subject.can?(:update, category_charge) }
+      it { subject.can?(:show, category_charge) }
+      it { subject.can?(:destroy, category_charge) }
     end
 
     context 'any other user' do
       subject(:ability) { Ability.new(user) }
 
-      it { subject.can?(:create, category) }
-      it { subject.can?(:index, category) }
+      it { subject.can?(:create, category_charge) }
+      it { subject.can?(:index, category_charge) }
 
-      it { subject.cannot?(:update, category) }
-      it { subject.cannot?(:show, category) }
-      it { subject.cannot?(:destroy, category) }
+      it { subject.cannot?(:update, category_charge) }
+      it { subject.cannot?(:show, category_charge) }
+      it { subject.cannot?(:destroy, category_charge) }
+    end
+  end
+
+  context 'for transfer,' do
+    context 'owner' do
+      subject(:ability) { Ability.new(owner) }
+
+      it { subject.can?(:update, transfer) }
+      it { subject.can?(:show, transfer) }
+      it { subject.can?(:destroy, transfer) }
+    end
+
+    context 'any other user' do
+      subject(:ability) { Ability.new(user) }
+
+      it { subject.can?(:create, transfer) }
+      it { subject.can?(:index, transfer) }
+
+      it { subject.cannot?(:update, transfer) }
+      it { subject.cannot?(:show, transfer) }
+      it { subject.cannot?(:destroy, transfer) }
     end
   end
 
@@ -72,24 +96,24 @@ RSpec.describe Ability, type: :model do
     end
   end
 
-  context 'for transfer,' do
+  context 'for charge,' do
     context 'owner' do
       subject(:ability) { Ability.new(owner) }
 
-      it { subject.can?(:update, transfer) }
-      it { subject.can?(:show, transfer) }
-      it { subject.can?(:destroy, transfer) }
+      it { subject.can?(:update, charge) }
+      it { subject.can?(:show, charge) }
+      it { subject.can?(:destroy, charge) }
     end
 
     context 'any other user' do
       subject(:ability) { Ability.new(user) }
 
-      it { subject.can?(:create, transfer) }
-      it { subject.can?(:index, transfer) }
+      it { subject.can?(:create, charge) }
+      it { subject.can?(:index, charge) }
 
-      it { subject.cannot?(:update, transfer) }
-      it { subject.cannot?(:show, transfer) }
-      it { subject.cannot?(:destroy, transfer) }
+      it { subject.cannot?(:update, charge) }
+      it { subject.cannot?(:show, charge) }
+      it { subject.cannot?(:destroy, charge) }
     end
   end
 end

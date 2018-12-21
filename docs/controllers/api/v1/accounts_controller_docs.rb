@@ -139,6 +139,22 @@ module Docs
           key :'$ref', :Unauthorized
         end
       end
+
+      response 403 do
+        key :description, 'Error, when user is not owner of this Account'
+        schema do
+          key :type, :object
+          key :'$ref', :Forbidden
+        end
+      end
+
+      response 404 do
+        key :description, 'Error, when ID is incorrect'
+        schema do
+          key :type, :object
+          key :'$ref', :NotFound
+        end
+      end
     end
 
     operation :patch do
@@ -189,6 +205,22 @@ module Docs
         schema do
           key :type, :object
           key :'$ref', :Unauthorized
+        end
+      end
+
+      response 403 do
+        key :description, 'Error, when user is not owner of this Account'
+        schema do
+          key :type, :object
+          key :'$ref', :Forbidden
+        end
+      end
+
+      response 404 do
+        key :description, 'Error, when ID is incorrect'
+        schema do
+          key :type, :object
+          key :'$ref', :NotFound
         end
       end
 
@@ -243,6 +275,22 @@ module Docs
         schema do
           key :type, :object
           key :'$ref', :Unauthorized
+        end
+      end
+
+      response 403 do
+        key :description, 'Error, when user is not owner of this Account'
+        schema do
+          key :type, :object
+          key :'$ref', :Forbidden
+        end
+      end
+
+      response 404 do
+        key :description, 'Error, when ID is incorrect'
+        schema do
+          key :type, :object
+          key :'$ref', :NotFound
         end
       end
     end

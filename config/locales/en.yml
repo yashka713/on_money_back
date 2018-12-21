@@ -13,8 +13,11 @@ en:
     errors:
       transfer_not_allowed: Allowed operation only between two accounts
       profit_not_allowed: Allowed operation where profitable is Account and chargeable is Category
+      charge_not_allowed: Allowed operation where profitable is Category and chargeable is Account
       operation_not_allowed: Operation between two Categories don't allowed
+      unknown_operation_type: Unknown operation type
       not_owner: "You are not owner %{chargeable} or %{profitable}"
+      attributes_hidden: One of the attributes is not allowed for this operation
 
   category:
     errors:

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProfitService do
   let!(:user) { create(:user) }
   let!(:profitable) { create :account, user_id: user.id, currency: 'USD', balance: 100 }
-  let!(:chargeable) { create :category, user_id: user.id }
+  let!(:chargeable) { create :category, user_id: user.id, type_of: 'profit' }
 
   let(:create_params) { FactoryBot.attributes_for(:profit, from: chargeable.id, to: profitable.id, amount: 100) }
 

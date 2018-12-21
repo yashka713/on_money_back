@@ -22,4 +22,16 @@ FactoryBot.define do
     chargeable { |transfer| transfer.association(:category) }
     profitable { |transfer| transfer.association(:account) }
   end
+
+  factory :charge, class: Transaction do
+    operation_type :charge
+    from_amount 100
+    to_amount 100
+    note 'Test'
+    date Time.now
+    association :user, factory: :user
+    # Polymorphic Association
+    chargeable { |transfer| transfer.association(:account) }
+    profitable { |transfer| transfer.association(:category) }
+  end
 end
