@@ -115,14 +115,42 @@ RSpec.describe Transaction, type: :model do
   context 'concern Profitable' do
     context 'profits_bills' do
       let!(:category) { create :category, user: user }
-      let(:invalid_transfer) do
+      let(:invalid_profit) do
         FactoryBot.build(:profit, chargeable: chargeable_USD, profitable: category, user: user)
       end
 
       it 'should return error' do
-        invalid_transfer.save
-        expect(full_messages(invalid_transfer)).to match(/#{I18n.t('transactions.errors.profit_not_allowed')}/)
+        invalid_profit.save
+        expect(full_messages(invalid_profit)).to match(/#{I18n.t('transactions.errors.profit_not_allowed')}/)
       end
+    end
+  end
+
+  context 'concern Chargeable' do
+    context 'charges_bills' do
+      let!(:account) { create :account, user: user }
+      let(:invalid_charge) do
+        FactoryBot.build(:charge, chargeable: chargeable_USD, profitable: account, user: user)
+      end
+
+      it 'should return error' do
+        invalid_charge.save
+        expect(full_messages(invalid_charge)).to match(/#{I18n.t('transactions.errors.charge_not_allowed')}/)
+      end
+    end
+  end
+
+  context 'attributes_not_hidden' do
+    let(:hidden_account) { create :account, user: user, status: :hidden }
+    let!(:category) { create :category, user: user }
+
+    let(:invalid_charge) do
+      FactoryBot.build(:charge, chargeable: hidden_account, profitable: category, user: user)
+    end
+
+    it 'should return error' do
+      invalid_charge.save
+      expect(full_messages(invalid_charge)).to match(/#{I18n.t('transactions.errors.attributes_hidden')}/)
     end
   end
 end
