@@ -14,8 +14,12 @@ module Profitable
   end
 
   def profits_bills
-    return if chargeable_type == 'Category' && profitable_type == 'Account'
+    return if profit_category && profitable_type == 'Account'
 
     errors[:base] << I18n.t('transactions.errors.profit_not_allowed')
+  end
+
+  def profit_category
+    chargeable_type == 'Category' && chargeable.type_of == 'profit'
   end
 end
