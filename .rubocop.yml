@@ -6,6 +6,8 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'spec/support/**/**'
+    - 'spec/factories/**/**'
+    - 'config/**/**'
 
 Documentation:
   Enabled: false
