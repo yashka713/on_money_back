@@ -12,7 +12,7 @@ module Docs
       parameter do
         key :name, :type_of
         key :in, :query
-        key :description, 'Return only "profits" or "charges" categories'
+        key :description, 'Return only "charges_categories" or "profits_categories"'
         key :type, :string
         key :required, false
         key :default, false
