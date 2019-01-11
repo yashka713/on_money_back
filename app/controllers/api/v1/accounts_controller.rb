@@ -43,7 +43,7 @@ module Api
       end
 
       def update_account_params
-        params.require(:account).permit(:name, :currency, :note)
+        params.require(:account).permit(:balance, :name, :currency, :note)
       end
 
       def render_404_if_hidden

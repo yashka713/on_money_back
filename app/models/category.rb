@@ -16,8 +16,8 @@ class Category < ApplicationRecord
   validate :type_not_changeable, on: :update
   validate :max_category_amount, on: :create
 
-  scope :charges_categories, ->(user) { where(type_of: 'charge', user_id: user.id) }
-  scope :profits_categories, ->(user) { where(type_of: 'profit', user_id: user.id) }
+  scope :charges_categories, ->(user) { where(type_of: 'charge', user_id: user.id, status: 'active') }
+  scope :profits_categories, ->(user) { where(type_of: 'profit', user_id: user.id, status: 'active') }
 
   def destroy(params)
     CategoryDestroyerService.new(self, params).destroy

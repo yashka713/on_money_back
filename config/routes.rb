@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
       resources :charges
 
+      resources :transactions, only: :index
+
       resources :categories, only: %i[index create show update destroy] do
         collection do
           get :types
