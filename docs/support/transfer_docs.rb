@@ -40,7 +40,7 @@ module Docs
       end
       property :type do
         key :type, :string
-        key :example, 'transfer'
+        key :example, 'transactions'
       end
       property :attributes do
         key :type, :object
