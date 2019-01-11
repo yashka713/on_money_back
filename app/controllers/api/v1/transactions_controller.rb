@@ -4,7 +4,7 @@ module Api
       def index
         transactions = current_user
                        .transactions
-                       .order(date: :asc)
+                       .order(date: :desc)
                        .page(params.dig(:page, :number) || 1)
                        .per(params.dig(:page, :size) || ENV['DEFAULT_TRANSACTIONS_AMOUNT'])
         render_success transactions, 200, include: { chargeable: {}, profitable: {} }

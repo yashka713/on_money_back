@@ -22,7 +22,7 @@ RSpec.describe Api::V1::TransactionsController, type: :controller do
 
     context 'response attributes' do
       let(:transfers) { parsed_data_from_body }
-      let(:transaction) { Transaction.all.order(date: :asc).first }
+      let(:transaction) { Transaction.all.order(date: :desc).first }
 
       it 'should be Array' do
         expect(transfers).to be_instance_of Array
