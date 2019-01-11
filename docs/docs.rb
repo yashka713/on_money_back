@@ -6,7 +6,7 @@ module Docs
   swagger_root do
     key :swagger, '2.0'
 
-    key :basePath, '/api/'
+    key :basePath, '/'
     key :produces, %w[application/json]
     key :consumes, %w[application/json]
     key :schemes, %w[https http]
