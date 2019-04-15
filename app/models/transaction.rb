@@ -11,7 +11,11 @@ class Transaction < ApplicationRecord
   belongs_to :profitable, polymorphic: true
   belongs_to :user
 
-  validates :date, :from_amount, :to_amount, presence: true
+  scope :created_between, ->(start_date, end_date){where("DATE(date) >= ? AND DATE(date) <= ?", start_date, end_date )}
+
+  validates :date, presence: true
+
+  validates :from_amount, :to_amount, numericality: { greater_than: 0 }
 
   validate :date_cannot_be_in_the_future
 
@@ -35,7 +39,7 @@ class Transaction < ApplicationRecord
   end
 
   def date_cannot_be_in_the_future
-    errors[:base] << I18n.t('errors.messages.on_or_before', restriction: 'current day') if date.present? && date.future?
+    errors[:date] << I18n.t('errors.messages.on_or_before', restriction: 'current day') if date.present? && date.future?
   end
 
   def operation_between_categories
