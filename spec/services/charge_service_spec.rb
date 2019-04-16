@@ -47,7 +47,7 @@ RSpec.describe ChargeService do
         chargeable.reload
       end.to change { chargeable.balance }
         .from(chargeable.balance)
-        .to(charge.from_amount - update_params[:amount])
+        .to(charge.from_amount + charge.from_amount - update_params[:amount])
     end
   end
 

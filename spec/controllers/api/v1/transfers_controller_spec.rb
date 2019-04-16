@@ -143,8 +143,11 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
   context 'update' do
     let!(:transfer) { create :transfer, chargeable: chargeable, profitable: profitable, user: user }
 
-    let!(:updatable) { create :account, user_id: user.id, currency: 'USD', balance: 500 }
-    let(:update_params) { FactoryBot.attributes_for(:transfer, from: profitable.id, to: updatable.id, amount: 200) }
+    let!(:chargeable_new) { create :account, user_id: user.id, currency: 'USD', balance: 500 }
+    let!(:profitable_new) { create :account, user_id: user.id, currency: 'USD', balance: 0 }
+    let(:update_params) do
+      FactoryBot.attributes_for(:transfer, from: chargeable_new.id, to: profitable_new.id, amount: 200)
+    end
 
     context 'response' do
       before { patch :update, params: { transfer: update_params, id: transfer.id } }
@@ -164,12 +167,12 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
 
       it { expect(parsed_body).to include('included') }
 
-      it 'define accounts for transfers' do
-        chargeable_acc = parsed_body['included'].first
-        profitable_acc = parsed_body['included'].last
-
-        expect(profitable_acc['id']).to eq(updatable.id.to_s)
-        expect(chargeable_acc['id']).to eq(profitable.id.to_s)
+      it 'contain all affected accounts for transfers' do
+        ids = parsed_body['included'].map { |account| account['id'].to_i }
+        expect(ids).to include(profitable.id)
+        expect(ids).to include(chargeable.id)
+        expect(ids).to include(chargeable_new.id)
+        expect(ids).to include(profitable_new.id)
       end
     end
   end

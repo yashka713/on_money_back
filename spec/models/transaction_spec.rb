@@ -21,11 +21,11 @@ RSpec.describe Transaction, type: :model do
 
   it { should validate_presence_of(:date) }
 
-  it { should validate_presence_of(:to_amount) }
-  it { should validate_presence_of(:from_amount) }
+  it { should validate_numericality_of(:to_amount).is_greater_than(0) }
+  it { should validate_numericality_of(:from_amount).is_greater_than(0) }
 
   it { should allow_value(Time.now).for(:date) }
-  it { should allow_value(Time.now + 1).for(:date) }
+  it { should_not allow_value(Time.now + 1).for(:date) }
 
   it { expect(valid_transfer).to be_valid }
 

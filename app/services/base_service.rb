@@ -61,8 +61,8 @@ class BaseService
 
   def transaction_attributes
     {
-      chargeable: @chargeable,
-      profitable: @profitable,
+      chargeable: @chargeable.reload,
+      profitable: @profitable.reload,
       from_amount: @params[:amount] || @transaction.from_amount,
       to_amount: @params[:amount] || @transaction.to_amount,
       date: @params[:date] || @transaction.date,
