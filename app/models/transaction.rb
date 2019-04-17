@@ -11,7 +11,9 @@ class Transaction < ApplicationRecord
   belongs_to :profitable, polymorphic: true
   belongs_to :user
 
-  scope :created_between, ->(start_date, end_date){where("DATE(date) >= ? AND DATE(date) <= ?", start_date, end_date )}
+  scope :created_between, (lambda do |start_date, end_date|
+    where('DATE(date) >= ? AND DATE(date) <= ?', start_date, end_date)
+  end)
 
   validates :date, presence: true
 

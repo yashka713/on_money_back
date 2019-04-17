@@ -47,7 +47,7 @@ RSpec.describe ProfitService do
         profitable.reload
       end.to change { profitable.balance }
         .from(profitable.balance)
-        .to(profit.to_amount + update_params[:amount])
+        .to(profit.to_amount - profit.from_amount + update_params[:amount])
     end
   end
 

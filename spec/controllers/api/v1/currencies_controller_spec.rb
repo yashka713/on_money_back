@@ -19,7 +19,7 @@ RSpec.describe Api::V1::CurrenciesController, type: :controller do
 
         usd = currencies.first
 
-        expect(usd['id']).to eq('USD')
+        expect(usd['id']).to eq('usd')
         expect(usd['type']).to eq('currency_info')
         expect(usd['attributes']).to include('symbol')
         expect(usd['attributes']['name']).to eq('United States Dollar')

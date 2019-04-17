@@ -4,7 +4,12 @@ module JsonApi
   def render_success(object = {}, code = 200, options = {})
     return render status: code if object.nil?
 
-    render json: object, status: code, include: options[:include], serializer: options[:serializer]
+    render json: object,
+           status: code,
+           include: { chargeable: {}, profitable: {}, old_chargeable: {}, old_profitable: {} },
+           serializer: options[:serializer],
+           old_chargeable: options[:old_chargeable],
+           old_profitable: options[:old_profitable]
     false
   end
 

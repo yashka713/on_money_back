@@ -111,7 +111,9 @@ RSpec.describe TransferService do
         expect do
           service.update
           profitable.reload
-        end.to change { profitable.balance }.from(profitable.balance).to(profitable.balance - update_params[:amount])
+        end.to change { profitable.balance }
+          .from(profitable.balance)
+          .to(profitable.balance - transfer.to_amount - update_params[:amount])
       end
     end
 
@@ -129,20 +131,21 @@ RSpec.describe TransferService do
       let(:service) { TransferService.new(transfer, diff_currencies_params) }
 
       it 'change profitable account amount, set balance which was before transfer' do
-        old_prof_balance = profitable.balance
         expect do
           service.update
           profitable.reload
-        end.to change { profitable.balance }.from(profitable.balance).to(profitable.balance - old_prof_balance)
+        end.to change { profitable.balance }
+          .from(profitable.balance)
+          .to(profitable.balance - diff_currencies_params[:amount])
       end
 
-      it 'change chargeable account amount' do
+      it 'change new profitable account amount' do
         expect do
           service.update
-          chargeable.reload
-        end.to change { chargeable.balance }
-          .from(chargeable.balance)
-          .to(chargeable.balance - diff_currencies_params[:amount])
+          profitable_eur.reload
+        end.to change { profitable_eur.balance }
+          .from(profitable_eur.balance)
+          .to(profitable_eur.balance + (diff_currencies_params[:amount] * diff_currencies_params[:rate]))
       end
 
       it 'change new profitable account amount' do
