@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
       resources :charges
 
+      resource :passwords, only: :update, on: :collection
+
       resources :tags
 
       resources :transactions, only: :index
