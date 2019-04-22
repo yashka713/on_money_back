@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Account, type: :model do
   let(:user) { create(:user) }
 
-  it { should define_enum_for(:status).with(Account::STATUSES) }
+  it { should define_enum_for(:status).with_values(Account::STATUSES) }
 
   it { should belong_to(:user) }
   it { should have_many(:charges) }

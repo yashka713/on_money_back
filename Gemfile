@@ -17,6 +17,7 @@ gem 'puma', '~> 3.7'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.1.5'
 gem 'rubocop'
+gem 'rubocop-performance'
 gem 'swagger-blocks'
 
 group :development, :test do

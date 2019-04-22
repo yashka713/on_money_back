@@ -28,3 +28,9 @@ end
 def full_messages(subject)
   subject.errors.full_messages.first
 end
+
+def ids_from_included_which(type)
+  parsed_body['included']
+      .select{|item| item["type"] == type}
+      .map { |item| item['id'].to_i }
+end

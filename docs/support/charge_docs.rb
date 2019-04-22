@@ -23,6 +23,10 @@ module Docs
           note: {
             type: :string,
             example: 'Test'
+          },
+          tag_ids: {
+            type: :array,
+            example: [1]
           }
     end
   end

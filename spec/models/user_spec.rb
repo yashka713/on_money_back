@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:accounts) }
   it { should have_many(:transactions) }
   it { should have_many(:categories) }
+  it { should have_many(:tags) }
 
   it { should validate_presence_of(:email) }
   it { should validate_uniqueness_of(:email) }

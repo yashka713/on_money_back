@@ -9,6 +9,8 @@ class TransactionSerializer < ActiveModel::Serializer
   belongs_to :old_chargeable, if: :old_chargeable_included?
   belongs_to :old_profitable, if: :old_profitable_included?
 
+  has_many :tags
+
   attribute :date
   attribute :status
   attributes :from_symbol, :to_symbol

@@ -13,13 +13,17 @@ RSpec.describe Transaction, type: :model do
     FactoryBot.build(:transfer, chargeable: chargeable_USD, profitable: profitable_USD, user: user)
   end
 
-  it { should define_enum_for(:operation_type).with(Transaction::TYPES) }
+  it { should define_enum_for(:operation_type).with_values(Transaction::TYPES) }
 
   it { should belong_to(:chargeable) }
   it { should belong_to(:profitable) }
   it { should belong_to(:user) }
+  it { should have_many(:transaction_tags).dependent(:destroy).with_foreign_key('money_transaction_id') }
+  it { should have_many(:tags).through(:transaction_tags) }
 
   it { should validate_presence_of(:date) }
+  it { should validate_presence_of(:from_amount) }
+  it { should validate_presence_of(:to_amount) }
 
   it { should validate_numericality_of(:to_amount).is_greater_than(0) }
   it { should validate_numericality_of(:from_amount).is_greater_than(0) }
@@ -59,7 +63,7 @@ RSpec.describe Transaction, type: :model do
 
   context 'date_cannot_be_in_the_future' do
     let(:invalid_transfer) do
-      FactoryBot.build(:transfer, date: Time.now + 1.day)
+      FactoryBot.build(:transfer, chargeable: chargeable_USD, profitable: profitable_USD, date: Time.now + 1.day)
     end
 
     it { expect(invalid_transfer).to_not be_valid }
@@ -142,7 +146,7 @@ RSpec.describe Transaction, type: :model do
 
   context 'attributes_not_hidden' do
     let(:hidden_account) { create :account, user: user, status: :hidden }
-    let!(:category) { create :category, user: user }
+    let!(:category) { create :category, user: user, type_of: 'charge' }
 
     let(:invalid_charge) do
       FactoryBot.build(:charge, chargeable: hidden_account, profitable: category, user: user)
