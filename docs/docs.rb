@@ -1,5 +1,5 @@
 module Docs
-  module_function
+  extend self
 
   include Swagger::Blocks
 
@@ -35,6 +35,4 @@ module Docs
 
     self
   end
-
-  module_function :api_schemes
 end

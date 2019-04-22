@@ -23,6 +23,10 @@ module Docs
           note: {
             type: :string,
             example: 'Test'
+          },
+          tag_ids: {
+            type: :array,
+            example: [1]
           }
     end
   end
@@ -92,6 +96,20 @@ module Docs
             property :type do
               key :type, :string
               key :example, 'accounts'
+            end
+          end
+        end
+        property :tags do
+          key :type, :object
+          property :data do
+            key :type, :object
+            property :id do
+              key :type, :integer
+              key :example, 1
+            end
+            property :type do
+              key :type, :string
+              key :example, 'tags'
             end
           end
         end

@@ -27,6 +27,10 @@ module Docs
           rate: {
             type: :float,
             example: 1.35
+          },
+          tag_ids: {
+            type: :array,
+            example: [1]
           }
     end
   end
