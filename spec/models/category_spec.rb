@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Category, type: :model do
   let!(:category) { create :category }
 
-  it { should define_enum_for(:type_of).with(Category::TYPES) }
-  it { should define_enum_for(:status).with(Category::STATUSES) }
+  it { should define_enum_for(:type_of).with_values(Category::TYPES) }
+  it { should define_enum_for(:status).with_values(Category::STATUSES) }
 
   it { should belong_to(:user) }
 

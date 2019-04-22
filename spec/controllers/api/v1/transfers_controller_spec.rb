@@ -141,16 +141,34 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
   end
 
   context 'update' do
-    let!(:transfer) { create :transfer, chargeable: chargeable, profitable: profitable, user: user }
+    let!(:transfer) { create :transfer, :with_tags, chargeable: chargeable, profitable: profitable, user: user }
 
     let!(:chargeable_new) { create :account, user_id: user.id, currency: 'USD', balance: 500 }
     let!(:profitable_new) { create :account, user_id: user.id, currency: 'USD', balance: 0 }
+    let!(:tag) { create :tag, user_id: user.id }
     let(:update_params) do
-      FactoryBot.attributes_for(:transfer, from: chargeable_new.id, to: profitable_new.id, amount: 200)
+      {
+        operation_type: :transfer,
+        from_amount: 100, to_amount: 100,
+        note: 'Test',
+        date: '2019-04-22',
+        from: chargeable_new.id,
+        to: profitable_new.id,
+        amount: 200,
+        tag_ids: transfer.tags.ids << tag.id
+      }
+    end
+
+    it 'add new tag to transfer tags list' do
+      expect do
+        patch :update, params: { transfer: update_params, id: transfer.id }
+      end.to change { TransactionTag.count }.by(1)
     end
 
     context 'response' do
-      before { patch :update, params: { transfer: update_params, id: transfer.id } }
+      before do
+        patch :update, params: { transfer: update_params, id: transfer.id }
+      end
 
       it { expect(response).to have_http_status(:ok) }
 
@@ -162,17 +180,22 @@ RSpec.describe Api::V1::TransfersController, type: :controller do
         expect(data['attributes']['from_amount'].to_f).to eq(update_params[:amount])
         expect(data['attributes']['note']).to eq(update_params[:note])
         expect(data['attributes']['status']).to eq('active')
-        expect(data['attributes']['date']).to eq(update_params[:date].strftime('%F'))
+        expect(data['attributes']['date']).to eq(update_params[:date])
       end
 
       it { expect(parsed_body).to include('included') }
 
       it 'contain all affected accounts for transfers' do
-        ids = parsed_body['included'].map { |account| account['id'].to_i }
-        expect(ids).to include(profitable.id)
-        expect(ids).to include(chargeable.id)
-        expect(ids).to include(chargeable_new.id)
-        expect(ids).to include(profitable_new.id)
+        account_ids = ids_from_included_which('accounts')
+        expect(account_ids).to include(profitable.id)
+        expect(account_ids).to include(chargeable.id)
+        expect(account_ids).to include(chargeable_new.id)
+        expect(account_ids).to include(profitable_new.id)
+      end
+
+      it 'contain all affected tags for transfers' do
+        tag_ids = ids_from_included_which('tags')
+        expect(tag_ids).to include(tag.id)
       end
     end
   end

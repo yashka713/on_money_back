@@ -11,6 +11,7 @@ RSpec.describe Ability, type: :model do
   let(:transfer) { create :transfer, user: owner, chargeable: account_one, profitable: account_two }
   let(:profit) { create :profit, user: owner, chargeable: category_profit, profitable: account_two }
   let(:charge) { create :charge, user: owner, chargeable: account_one, profitable: category_charge }
+  let(:tag) { create :tag, user: owner }
 
   context 'for account,' do
     context 'owner' do
@@ -114,6 +115,27 @@ RSpec.describe Ability, type: :model do
       it { subject.cannot?(:update, charge) }
       it { subject.cannot?(:show, charge) }
       it { subject.cannot?(:destroy, charge) }
+    end
+  end
+
+  context 'for tag,' do
+    context 'owner' do
+      subject(:ability) { Ability.new(owner) }
+
+      it { subject.can?(:update, tag) }
+      it { subject.can?(:show, tag) }
+      it { subject.can?(:destroy, tag) }
+    end
+
+    context 'any other user' do
+      subject(:ability) { Ability.new(user) }
+
+      it { subject.can?(:create, tag) }
+      it { subject.can?(:index, tag) }
+
+      it { subject.cannot?(:update, tag) }
+      it { subject.cannot?(:show, tag) }
+      it { subject.cannot?(:destroy, tag) }
     end
   end
 end

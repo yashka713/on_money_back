@@ -132,10 +132,29 @@ RSpec.describe Api::V1::ProfitsController, type: :controller do
   end
 
   context 'update' do
-    let!(:profit) { create :profit, chargeable: chargeable, profitable: profitable, user: user }
+    let!(:profit) { create :profit, :with_tags, chargeable: chargeable, profitable: profitable, user: user }
+    let!(:tag) { create :tag, user_id: user.id }
 
     let!(:updatable) { create :category, user_id: user.id, type_of: 'profit' }
-    let(:update_params) { FactoryBot.attributes_for(:profit, from: updatable.id, to: profitable.id, amount: 200) }
+
+    let(:update_params) do
+      {
+        operation_type: :profit,
+        from_amount: 100, to_amount: 100,
+        note: 'Test',
+        date: '2019-04-22',
+        from: updatable.id,
+        to: profitable.id,
+        amount: 200,
+        tag_ids: profit.tags.ids << tag.id
+      }
+    end
+
+    it 'add new tag to profit tags list' do
+      expect do
+        patch :update, params: { profit: update_params, id: profit.id }
+      end.to change { TransactionTag.count }.by(1)
+    end
 
     context 'response' do
       before { patch :update, params: { profit: update_params, id: profit.id } }
@@ -150,17 +169,21 @@ RSpec.describe Api::V1::ProfitsController, type: :controller do
         expect(data['attributes']['from_amount'].to_f).to eq(update_params[:amount])
         expect(data['attributes']['note']).to eq(update_params[:note])
         expect(data['attributes']['status']).to eq('active')
-        expect(data['attributes']['date']).to eq(update_params[:date].strftime('%F'))
+        expect(data['attributes']['date']).to eq(update_params[:date])
       end
 
       it { expect(parsed_body).to include('included') }
 
-      it 'define accounts for transfers' do
-        chargeable_acc = parsed_body['included'].first
-        profitable_acc = parsed_body['included'].last
+      it 'contain all affected accounts for profit' do
+        account_ids = ids_from_included_which('accounts')
+        categories_ids = ids_from_included_which('categories')
+        expect(categories_ids).to include(updatable.id)
+        expect(account_ids).to include(profitable.id)
+      end
 
-        expect(chargeable_acc['id']).to eq(updatable.id.to_s)
-        expect(profitable_acc['id']).to eq(profitable.id.to_s)
+      it 'contain all affected tags for profit' do
+        tag_ids = ids_from_included_which('tags')
+        expect(tag_ids).to include(tag.id)
       end
     end
   end
