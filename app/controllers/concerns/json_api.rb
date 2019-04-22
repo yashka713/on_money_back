@@ -6,7 +6,7 @@ module JsonApi
 
     render json: object,
            status: code,
-           include: { chargeable: {}, profitable: {}, old_chargeable: {}, old_profitable: {} },
+           include: { chargeable: {}, profitable: {}, old_chargeable: {}, old_profitable: {}, tags: {} },
            serializer: options[:serializer],
            old_chargeable: options[:old_chargeable],
            old_profitable: options[:old_profitable]

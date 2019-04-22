@@ -11,11 +11,12 @@ class Transaction < ApplicationRecord
   belongs_to :profitable, polymorphic: true
   belongs_to :user
 
-  scope :created_between, (lambda do |start_date, end_date|
-    where('DATE(date) >= ? AND DATE(date) <= ?', start_date, end_date)
-  end)
+  has_many :transaction_tags, dependent: :destroy, foreign_key: 'money_transaction_id'
+  has_many :tags, through: :transaction_tags
 
-  validates :date, presence: true
+  accepts_nested_attributes_for :transaction_tags
+
+  validates :date, :from_amount, :to_amount, presence: true
 
   validates :from_amount, :to_amount, numericality: { greater_than: 0 }
 
@@ -25,6 +26,10 @@ class Transaction < ApplicationRecord
   validate :owner, if: :chargeable_and_profitable_changed?
 
   validate :attributes_active, if: :chargeable_and_profitable_changed?
+
+  scope :created_between, (lambda do |start_date, end_date|
+    where('DATE(date) >= ? AND DATE(date) <= ?', start_date, end_date)
+  end)
 
   before_save :squish_note
 
@@ -59,7 +64,7 @@ class Transaction < ApplicationRecord
   end
 
   def chargeable_and_profitable_changed?
-    (changes.keys.include? 'chargeable_id') || (changes.keys.include? 'profitable_id')
+    changes.key?('chargeable_id') || changes.key?('profitable_id')
   end
 
   def author_owner?

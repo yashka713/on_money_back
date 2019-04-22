@@ -36,8 +36,8 @@ class BaseService
   def persist_with_transaction
     ActiveRecord::Base.transaction do
       return yield
-    rescue ActiveRecord::RecordInvalid => exception
-      copy_errors exception.record.errors
+    rescue ActiveRecord::RecordInvalid => e
+      copy_errors e.record.errors
       raise ActiveRecord::Rollback
     end
 
@@ -66,7 +66,8 @@ class BaseService
       from_amount: @params[:amount] || @transaction.from_amount,
       to_amount: @params[:amount] || @transaction.to_amount,
       date: @params[:date] || @transaction.date,
-      note: @params[:note] || @transaction.note
+      note: @params[:note] || @transaction.note,
+      tag_ids: @params[:tag_ids]
     }
   end
 end
