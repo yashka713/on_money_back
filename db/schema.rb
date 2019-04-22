@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_181_214_155_113) do
+ActiveRecord::Schema.define(version: 20_190_414_171_632) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -33,6 +33,21 @@ ActiveRecord::Schema.define(version: 20_181_214_155_113) do
     t.bigint 'user_id'
     t.integer 'status', default: 0, null: false
     t.index ['user_id'], name: 'index_categories_on_user_id'
+  end
+
+  create_table 'tags', force: :cascade do |t|
+    t.string 'name', limit: 25, null: false
+    t.bigint 'user_id'
+    t.index ['user_id'], name: 'index_tags_on_user_id'
+  end
+
+  create_table 'transaction_tags', force: :cascade do |t|
+    t.bigint 'money_transaction_id'
+    t.bigint 'tag_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['money_transaction_id'], name: 'index_transaction_tags_on_money_transaction_id'
+    t.index ['tag_id'], name: 'index_transaction_tags_on_tag_id'
   end
 
   create_table 'transactions', force: :cascade do |t|
@@ -60,4 +75,7 @@ ActiveRecord::Schema.define(version: 20_181_214_155_113) do
     t.datetime 'updated_at', null: false
     t.index ['email'], name: 'index_users_on_email', unique: true
   end
+
+  add_foreign_key 'transaction_tags', 'tags'
+  add_foreign_key 'transaction_tags', 'transactions', column: 'money_transaction_id'
 end
