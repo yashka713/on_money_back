@@ -7,5 +7,6 @@ class Ability
     merge Abilities::ProfitAbility.new(user)
     merge Abilities::TransferAbility.new(user)
     merge Abilities::ChargeAbility.new(user)
+    merge Abilities::TagAbility.new(user)
   end
 end
