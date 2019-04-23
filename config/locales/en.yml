@@ -2,6 +2,8 @@ en:
   user:
     errors:
       forbidden: You are not authorized to access this page.
+      wrong_password: You can not update your password.
+      empty_password: Check the entered information.
 
   account:
     errors:
