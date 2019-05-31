@@ -19,9 +19,9 @@ class User < ApplicationRecord
       self.password = password_params[:password]
       return true if save
 
-      self.errors[:password] << I18n.t('user.errors.wrong_password')
+      errors[:password] << I18n.t('user.errors.wrong_password')
     else
-      self.errors[:password] << I18n.t('user.errors.empty_password')
+      errors[:password] << I18n.t('user.errors.empty_password')
     end
   end
 end
