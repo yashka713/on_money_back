@@ -11,18 +11,25 @@ require 'faker'
 require 'rspec/collection_matchers'
 require 'shoulda/matchers'
 
-# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+ENV['AUTH_SECRET'] = 'test'
+ENV['TOKEN_LIFETIME'] = '100'
+ENV['MAX_CATEGORY_AMOUNT'] = '10'
+ENV['DEFAULT_TRANSACTIONS_AMOUNT'] = '5'
+
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   DatabaseCleaner[:active_record].strategy = :truncation
 
-  config.before(:each) do
+  config.before(:suite) do
     DatabaseCleaner[:active_record].start
   end
 
-  config.after(:each) do
+  config.after(:suite) do
     DatabaseCleaner[:active_record].clean
   end
+
+  config.use_transactional_fixtures = true
 
   config.infer_spec_type_from_file_location!
 

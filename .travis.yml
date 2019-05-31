@@ -6,7 +6,13 @@ services:
 before_script:
   - psql -c "CREATE DATABASE test;" -U postgres
   - psql -c "CREATE USER test WITH PASSWORD 'test';" -U postgres
-#  - "bundle exec rake db:create db:migrate"
+  - cp ./database.yml.travis config/database.yml
 script:
   - bundle exec rubocop --config .rubocop.yml app/ spec/ db/migrate
-  - bundle exec rspec
+  - bundle exec rake db:schema:load
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake spec
+after_failure:
+  - "cat ./config/database.yml"
+  - "echo $RAILS_ENV"
+  - "bundle exec rake --version"

@@ -16,10 +16,17 @@ A description of the features will be added during the development process.
 * Ruby on Rails - version 5.1.5
 * Postgres
 * Hivemind (for launching)
+* Docker
 
 ## Deployment
 
-Deployment instructions will be here as soon as possible.
+For deploying(*Heroku*):
+
+1. Install [Heroku-cli](https://devcenter.heroku.com/articles/heroku-cli) localy
+
+2. Configure it with `heroku git:remote -a {your_awesome_application_name}`
+
+3. `git push heroku master`
 
 ### Authors
 
@@ -32,11 +39,13 @@ Required software:
 * `ruby`
 * `postgresDb`
 * [hivemind](https://github.com/DarthSim/hivemind)
+* `Docker`
 
 Install
 -----------------
 ```
 git clone git@github.com:yashka713/on_money_back.git
+cp .env.example .env
 bundle install
 bundle exec rake db:create
 bundle exec rake db:migrate
@@ -57,7 +66,18 @@ or
 rails s
 ```
 
+or
+
+```
+docker-compose up --build
+```
+
 Navigate to [http://localhost:3000](http://localhost:3000) or run `curl localhost:3000/status`.
+
+Docs
+-------------
+
+`Swagger` docs available [here](http://localhost:3000/api/v1/docs)
 
 Tests
 -------------
@@ -65,6 +85,6 @@ Tests
 Run:
 
 ```
-rubocop
+rubocop --config .rubocop.yml app/ spec/ db/migrate
 rspec
 ```

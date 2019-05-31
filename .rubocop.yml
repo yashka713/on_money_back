@@ -1,30 +1,51 @@
+require: rubocop-performance
+
 AllCops:
   DisplayCopNames: false
   DisplayStyleGuide: false
   StyleGuideCopsOnly: false
   TargetRubyVersion: 2.5.0
-  Excludes:
-    - 'node_modules/**/*'
+  Exclude:
     - 'bin/**/*'
+    - 'spec/support/**/**'
+    - 'spec/factories/**/**'
+    - 'config/**/**'
 
 Documentation:
   Enabled: false
 
 Metrics/LineLength:
   Max: 120
+  Exclude:
+    - "**/*_spec.rb"
+    - "**/*_docs.rb"
+    - 'db/schema.rb'
 
 Metrics/MethodLength:
   Severity: warning
   CountComments: false
   Max: 20
+  Exclude:
+    - 'db/migrate/**'
+    - 'db/schema.rb'
 
 Metrics/ModuleLength:
   Exclude:
-    - "**/*_spec.rb"
+    - '**/*_spec.rb'
+    - "**/*_docs.rb"
+    - 'db/schema.rb'
 
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
+    - "**/*_docs.rb"
+    - 'db/schema.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/**'
+    - "**/*_docs.rb"
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+  EnforcedStyle: never
