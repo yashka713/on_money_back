@@ -19,5 +19,3 @@
 pg-data/
 docker-commands
 mongo-data/
-
-config/secrets.yml
