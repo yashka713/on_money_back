@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_414_171_632) do
+ActiveRecord::Schema.define(version: 20_190_606_153_515) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -33,6 +33,14 @@ ActiveRecord::Schema.define(version: 20_190_414_171_632) do
     t.bigint 'user_id'
     t.integer 'status', default: 0, null: false
     t.index ['user_id'], name: 'index_categories_on_user_id'
+  end
+
+  create_table 'requests', force: :cascade do |t|
+    t.string 'email'
+    t.string 'description'
+    t.boolean 'done', default: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
   create_table 'tags', force: :cascade do |t|
