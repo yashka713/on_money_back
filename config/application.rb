@@ -9,6 +9,7 @@ require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'action_view/railtie'
 require 'action_cable/engine'
+require_relative "../app/middlewares/snake_case_parameters"
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -37,6 +38,8 @@ module OnMoneyBack
       g.stylesheets     false
       g.helper          false
     end
+
+    config.middleware.use SnakeCaseParameters
 
     config.middleware.use Rack::Cors do
       allow do
