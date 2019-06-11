@@ -4,6 +4,9 @@ lock "~> 3.11.0"
 set :application, "on_money"
 set :repo_url, "git@github.com:yashka713/on_money_back.git"
 
+set :console_env, :production
+set :console_role, :app
+
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/home/deployer/on_money"
 
