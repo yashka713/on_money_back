@@ -19,9 +19,11 @@ gem 'rails', '~> 5.1.5'
 gem 'rubocop'
 gem 'rubocop-performance'
 gem 'seed-fu', '~> 2.3', '>= 2.3.7'
+gem 'smtp2go-rails'
 gem 'swagger-blocks'
 
 group :development, :test do
+  gem 'actionview-encoded_mail_to'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'dotenv-rails'
