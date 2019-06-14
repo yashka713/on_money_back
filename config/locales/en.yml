@@ -3,7 +3,7 @@ en:
     errors:
       forbidden: You are not authorized to access this page.
       wrong_password: You can not update your password.
-      empty_password: Check the entered information.
+      empty_password: Wrong old password or entered information.
 
   account:
     errors:
