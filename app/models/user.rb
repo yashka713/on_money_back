@@ -17,11 +17,9 @@ class User < ApplicationRecord
   validates :password, format: { with: PASSWORD_FORMAT, message: :format }, if: :password_digest_changed?
 
   def update_password!(password_params)
-    if password_params[:password] && (password_params[:password] == password_params[:password_confirmation])
-      self.password = password_params[:password]
-      return true if save
-
-      errors[:password] << I18n.t('user.errors.wrong_password')
+    if authenticate(password_params[:old_password]) && same_password_params?(password_params)
+      self.password = password_params[:new_password]
+      save
     else
       errors[:password] << I18n.t('user.errors.empty_password')
     end
@@ -31,5 +29,11 @@ class User < ApplicationRecord
     new_passw = SecureRandom.base64(15).tr('+/=lIO0', 'pqrsxyz') # from Devise
     self.password = new_passw
     UserMailer.reset_password_email(self, new_passw).deliver_now if save
+  end
+
+  private
+
+  def same_password_params?(password_params)
+    password_params[:new_password] == password_params[:new_password_confirmation]
   end
 end

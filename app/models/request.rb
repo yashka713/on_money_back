@@ -3,9 +3,8 @@ class Request < ApplicationRecord
   validates :email, presence: true
 
   def process
-    return send_new_password if need_password_recover?
+    send_new_password if need_password_recover?
 
-    Rails.logger.info '-----------------------Support requested---------------'
     save
   end
 
@@ -20,9 +19,6 @@ class Request < ApplicationRecord
 
     user&.reset_password
 
-    Rails.logger.info '-----------------------mail sent---------------'
-
-    description << "\n There is problem with user. Write him!"
-    save
+    description << "\n There is problem with user. Write him!" if description.present?
   end
 end

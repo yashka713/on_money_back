@@ -12,7 +12,11 @@ module Api
       private
 
       def change_password_params
-        params.require(:new_password).permit(:password, :password_confirmation)
+        params.require(:change_password).permit(
+          :old_password,
+          :new_password,
+          :new_password_confirmation
+        )
       end
     end
   end
