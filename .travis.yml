@@ -3,11 +3,15 @@ rvm:
   - 2.5.0
 services:
   - postgresql
+before_install:
+  - gem update --system
+  - gem install bundler -v '> 2'
 before_script:
   - psql -c "CREATE DATABASE test;" -U postgres
   - psql -c "CREATE USER test WITH PASSWORD 'test';" -U postgres
   - cp ./database.yml.travis config/database.yml
 script:
+  - gem update --system
   - bundle exec rubocop --config .rubocop.yml app/ spec/ db/migrate
   - bundle exec rake db:schema:load
   - RAILS_ENV=test bundle exec rake db:migrate --trace
