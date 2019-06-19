@@ -11,6 +11,8 @@ WORKDIR /railsapi
 
 ADD Gemfile /railsapi/Gemfile
 ADD Gemfile.lock /railsapi/Gemfile.lock
-RUN bundle update
+RUN gem install bundler:2.0.1
+ENV BUNDLER_VERSION 2.0.1
 RUN bundle install
+RUN bundle update
 ADD . /railsapi
