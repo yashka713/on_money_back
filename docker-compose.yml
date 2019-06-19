@@ -3,20 +3,26 @@ services:
   postgres:
     image: postgres:9.6
     volumes:
-      - ./pg-data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: on_money_dev
     ports:
     # HOST:CONTAINER
       - '5433:5432'
   api:
     restart: always
     build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     # for debugging
     tty: true
     stdin_open: true
+    # ENV variables
+    env_file:
+      - .env
+    environment:
+      - DB_HOST="postgres"
     # for online changes
     volumes:
       - .:/railsapi
