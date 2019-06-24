@@ -9,6 +9,8 @@ end
 gem 'active_model_serializers'
 gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan'
+gem 'graphql'
+gem "graphiql-rails"
 gem 'jwt'
 gem 'kaminari'
 gem 'money'
