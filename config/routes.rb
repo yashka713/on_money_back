@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
       resources :currencies, only: :index
 
+      resources :requests, only: :create
+
       resources :docs, only: :index
 
       resources :transfers
@@ -26,7 +28,9 @@ Rails.application.routes.draw do
 
       resources :charges
 
-      resource :passwords, only: :update, on: :collection
+      resource :passwords, only: [] do
+        patch :update, on: :collection
+      end
 
       resources :tags
 

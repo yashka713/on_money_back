@@ -1,7 +1,6 @@
 module Api
   module V1
     class BaseController < ::ApplicationController
-      include JsonApi
       include Authenticatable
 
       rescue_from ActiveRecord::RecordNotFound, with: :render_404

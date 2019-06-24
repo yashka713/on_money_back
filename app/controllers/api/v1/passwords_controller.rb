@@ -2,7 +2,7 @@ module Api
   module V1
     class PasswordsController < BaseController
       def update
-        current_user.reset_password!(change_password_params)
+        current_user.update_password!(change_password_params)
 
         return render_jsonapi_errors current_user if current_user.errors.any?
 
@@ -12,7 +12,11 @@ module Api
       private
 
       def change_password_params
-        params.require(:new_password).permit(:password, :password_confirmation)
+        params.require(:change_password).permit(
+          :old_password,
+          :new_password,
+          :new_password_confirmation
+        )
       end
     end
   end

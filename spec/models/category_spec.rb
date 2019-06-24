@@ -37,19 +37,4 @@ RSpec.describe Category, type: :model do
       expect(full_messages(category)).to match(/#{I18n.t('category.errors.type_changed')}/)
     end
   end
-
-  context 'max_category_amount' do
-    let!(:user) { create(:user) }
-
-    let!(:profits_categories_list) { create_list :category, 11, type_of: 'profit', user: user }
-    let!(:charges_categories_list) { create_list :category, 11, type_of: 'charge', user: user }
-    let!(:category_params) { create_list :category, 10, type_of: 'charge' }
-
-    Category::TYPES.each do |type|
-      it "should return error when max amount of #{type}es reached" do
-        category = Category.create(user: user, name: 'test', type_of: type)
-        expect(full_messages(category)).to match(/#{I18n.t('category.errors.max_amount_riched')}/)
-      end
-    end
-  end
 end

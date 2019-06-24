@@ -40,6 +40,7 @@ Metrics/BlockLength:
     - "**/*_spec.rb"
     - "**/*_docs.rb"
     - 'db/schema.rb'
+    - 'lib/capistrano/tasks/**'
 
 Metrics/AbcSize:
   Exclude:
