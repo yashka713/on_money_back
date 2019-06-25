@@ -39,7 +39,7 @@ module OnMoneyBack
       g.helper          false
     end
 
-    config.middleware.use SnakeCaseParameters
+    # config.middleware.use SnakeCaseParameters
 
     config.middleware.use Rack::Cors do
       allow do
