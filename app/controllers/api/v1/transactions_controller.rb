@@ -3,9 +3,10 @@ module Api
     class TransactionsController < BaseController
       def index
         transactions = transaction_list
-                       .order(date: :desc)
+                       .order('date DESC, id')
                        .page(params.dig(:page, :number) || 1)
                        .per(params.dig(:page, :size) || ENV['DEFAULT_TRANSACTIONS_AMOUNT'])
+
         render_success transactions
       end
 
