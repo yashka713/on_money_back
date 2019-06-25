@@ -10,6 +10,7 @@ AllCops:
     - 'spec/support/**/**'
     - 'spec/factories/**/**'
     - 'config/**/**'
+    - 'app/controllers/graphql_controller.rb'
 
 Documentation:
   Enabled: false
