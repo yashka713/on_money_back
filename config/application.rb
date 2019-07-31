@@ -43,10 +43,10 @@ module OnMoneyBack
 
     config.middleware.use Rack::Cors do
       allow do
-        origins '*'
+        origins 'localhost:3001'
         resource '*',
                  headers: :any,
-                 methods: %i[get post options delete put patch]
+                 methods: %i[get post delete put patch]
       end
     end
   end

@@ -1,3 +1,5 @@
+# TODO: finishing category destroyer
+#
 class CategoryDestroyerService
   attr_accessor :category
 
