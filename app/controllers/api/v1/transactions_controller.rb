@@ -10,6 +10,17 @@ module Api
         render_success transactions
       end
 
+      def months_list
+        months = current_user.transactions.pluck(:date).group_by(&:beginning_of_month).keys
+
+        months_list =
+          {
+            data: ActiveModel::Serializer::CollectionSerializer.new(months,
+                                                                    serializer: MonthsListSerializer)
+          }
+        render_success months_list
+      end
+
       private
 
       def transaction_list

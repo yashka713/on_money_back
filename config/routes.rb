@@ -40,7 +40,11 @@ Rails.application.routes.draw do
 
       resources :tags
 
-      resources :transactions, only: :index
+      resources :transactions, only: :index do
+        collection do
+          get :months_list
+        end
+      end
 
       resources :categories, only: %i[index create show update destroy] do
         collection do
