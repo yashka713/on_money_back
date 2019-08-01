@@ -1,13 +1,9 @@
 module Types
   class QueryType < Types::BaseObject
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
-
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :month_total, MonthTotalType, resolver: Resolvers::MonthTotalResolver, null: true do
+      description 'Month total charge amount grouped by category'
+      argument :date, String, required: false
+      argument :account_ids, [String], required: false, prepare: ->(account_ids, _ctx) { account_ids.map(&:to_i) }
     end
   end
 end

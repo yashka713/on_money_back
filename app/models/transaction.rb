@@ -27,8 +27,24 @@ class Transaction < ApplicationRecord
 
   validate :attributes_active, if: :chargeable_and_profitable_changed?
 
+  scope :charges, -> { where(operation_type: :charge) }
+
+  scope :from_accounts, (lambda do |account_ids|
+    joins('JOIN accounts ON transactions.chargeable_id = accounts.id')
+    .where('accounts.id IN (?)', account_ids)
+  end)
+
   scope :created_between, (lambda do |start_date, end_date|
     where('DATE(date) >= ? AND DATE(date) <= ?', start_date, end_date)
+  end)
+
+  scope :monthly_grouped_charges, (lambda do |date, account_ids|
+    charges
+    .from_accounts(account_ids)
+    .created_between(date.beginning_of_month, date.end_of_month)
+    .joins('JOIN categories ON transactions.profitable_id = categories.id')
+    .group(['categories.name', 'accounts.currency'])
+    .sum(:from_amount)
   end)
 
   before_save :squish_note

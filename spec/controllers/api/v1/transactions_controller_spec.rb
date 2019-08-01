@@ -60,5 +60,27 @@ RSpec.describe Api::V1::TransactionsController, type: :controller do
         expect(chargeable_acc['id']).to eq(chargeable.id.to_s)
       end
     end
+
+    context 'months_list' do
+      let(:month_first_day) { transactions.first.date.beginning_of_month }
+
+      before { get :months_list }
+
+      it 'response code' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'check response attributes' do
+        months_list = parsed_data_from_body
+
+        expect(months_list).to be_instance_of Array
+
+        months = months_list.first
+
+        expect(months['id']).to eq(month_first_day.as_json)
+        expect(months['type']).to eq('months_list')
+        expect(months['attributes']['label']).to eq(month_first_day.strftime('%B %Y'))
+      end
+    end
   end
 end
