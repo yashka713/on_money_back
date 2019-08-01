@@ -10,7 +10,7 @@ require 'action_mailer/railtie'
 require 'action_view/railtie'
 require 'action_cable/engine'
 require_relative "../app/middlewares/snake_case_parameters"
-# require "sprockets/railtie"
+require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -39,14 +39,14 @@ module OnMoneyBack
       g.helper          false
     end
 
-    config.middleware.use SnakeCaseParameters
+    # config.middleware.use SnakeCaseParameters
 
     config.middleware.use Rack::Cors do
       allow do
-        origins '*'
+        origins 'localhost:3001'
         resource '*',
                  headers: :any,
-                 methods: %i[get post options delete put patch]
+                 methods: %i[get post delete put patch]
       end
     end
   end
