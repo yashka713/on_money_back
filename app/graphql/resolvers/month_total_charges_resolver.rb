@@ -5,13 +5,9 @@ module Resolvers
     def resolve(**args)
       current_month = transactions_month(args[:date])
       account_ids = args[:account_ids].map(&:to_i)
+      current_user = context[:current_user]
 
-      monthly_grouped_charges = context[:current_user].transactions.monthly_grouped_charges(current_month, account_ids)
-
-      {
-        month: current_month.strftime('%B %Y'),
-        data: Charts::MonthTotalService.call(monthly_grouped_charges)
-      }
+      Charts::MonthTotalChargesService.call(current_user, current_month, account_ids)
     end
 
     private
