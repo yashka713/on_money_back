@@ -1,6 +1,6 @@
 module Resolvers
-  class MonthTotalResolver < Resolvers::BaseResolver
-    type [Types::MonthTotalType], null: true
+  class MonthTotalChargesResolver < Resolvers::BaseResolver
+    type [Types::MonthTotalChargesType], null: true
 
     def resolve(**args)
       current_month = transactions_month(args[:date])

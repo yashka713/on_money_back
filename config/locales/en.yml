@@ -55,3 +55,6 @@ en:
       format:
         delimiter: ","
         separator: "."
+
+  chart:
+    profit_by_уеar: "Profit by months for %{year} year"
