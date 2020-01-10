@@ -37,6 +37,13 @@ class Transaction < ApplicationRecord
     .where('accounts.id IN (?)', account_ids)
   end)
 
+  scope :transactions_months_list, (lambda do
+    order(:date)
+        .pluck(:date)
+        .group_by(&:beginning_of_month)
+        .keys
+  end)
+
   scope :created_between, (lambda do |start_date, end_date|
     where('DATE(date) >= ? AND DATE(date) <= ?', start_date, end_date)
   end)

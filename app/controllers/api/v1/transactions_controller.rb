@@ -11,7 +11,7 @@ module Api
       end
 
       def months_list
-        months = current_user.transactions.pluck(:date).group_by(&:beginning_of_month).keys
+        months = current_user.transactions.transactions_months_list
 
         months_list =
           {
