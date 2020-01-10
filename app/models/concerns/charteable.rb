@@ -1,6 +1,10 @@
 module Charteable
   extend ActiveSupport::Concern
 
+  PROFIT_COLUMNS = %q{SUM(transactions.from_amount),
+                      date_trunc('month', transactions.date) AS tr_date,
+                      accounts.currency AS accounts_currency}
+
   included do
     scope :monthly_grouped_charges, (lambda do |date, account_ids|
       charges
@@ -12,12 +16,12 @@ module Charteable
     end)
 
     scope :year_grouped_profits, (lambda do |year|
-      select('transactions.from_amount', 'transactions.date', 'accounts.currency AS accounts_currency')
+      select(PROFIT_COLUMNS)
         .profits
         .created_between(year.beginning_of_year, year.end_of_year)
         .joins('JOIN accounts ON transactions.profitable_id = accounts.id')
-        # .group(['accounts.currency', 'transactions.date'])
-        # .sum(:from_amount)
+        .group(['accounts_currency', 'tr_date'])
+        .order('tr_date')
     end)
   end
 end

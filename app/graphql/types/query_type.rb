@@ -11,7 +11,6 @@ module Types
           resolver: Resolvers::ProfitFromYearStartResolver, null: true do
       description 'Profit from year start by each currency'
       argument :year, String, required: false
-      # argument :account_ids, [String], required: false, prepare: ->(account_ids, _ctx) { account_ids.map(&:to_i) }
     end
   end
 end
