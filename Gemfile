@@ -26,7 +26,7 @@ gem 'swagger-blocks'
 
 group :development, :test do
   gem 'actionview-encoded_mail_to'
-  gem 'byebug'
+  gem 'pry'
   gem 'database_cleaner'
   gem 'dotenv-rails'
   gem 'selenium-webdriver'
