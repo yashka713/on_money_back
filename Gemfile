@@ -7,6 +7,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'active_model_serializers'
+gem 'aws-sdk-s3', '~> 1.14'
 gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan'
 gem 'graphiql-rails'
@@ -21,6 +22,7 @@ gem 'rails', '~> 5.1.5'
 gem 'rubocop'
 gem 'rubocop-performance'
 gem 'seed-fu', '~> 2.3', '>= 2.3.7'
+gem 'shrine', '~> 3.0'
 gem 'smtp2go-rails'
 gem 'swagger-blocks'
 

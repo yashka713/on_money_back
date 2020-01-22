@@ -4,6 +4,8 @@ class Transaction < ApplicationRecord
   include Chargeable
   include Charteable
 
+  include ReceiptUploader::Attachment(:receipt)
+
   TYPES = %i[transfer charge profit].freeze
 
   enum operation_type: TYPES
