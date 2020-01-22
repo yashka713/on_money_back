@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server "165.22.203.185", user: "deployer", roles: %w{app db web}, primary: true #, my_property: :my_value
+server "188.166.18.57", user: "deployer", roles: %w{app db web}, primary: true #, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
@@ -17,9 +17,9 @@ server "165.22.203.185", user: "deployer", roles: %w{app db web}, primary: true 
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-role :app, %w{deployer@165.22.203.185} #, my_property: :my_value
-role :web, %w{deployer@165.22.203.185}
-role :db,  %w{deployer@165.22.203.185}
+role :app, %w{deployer@188.166.18.57} #, my_property: :my_value
+role :web, %w{deployer@188.166.18.57}
+role :db,  %w{deployer@188.166.18.57}
 
 set :rails_env, :production
 
@@ -42,7 +42,7 @@ set :rails_env, :production
 # Global options
 # --------------
  set :ssh_options, {
-   keys: %w(/home/NIX/yliakh/.ssh/id_rsa),
+   keys: %w(/home/NIX/yliakh/.ssh/id_rsa /Users/Yaroslav/.ssh/id_rsa),
    forward_agent: true,
    auth_methods: %w(publickey password),
    port: 22

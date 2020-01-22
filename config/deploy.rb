@@ -13,7 +13,7 @@ set :deploy_to, "/home/deployer/on_money"
 set :deploy_user, "deployer"
 
 set :rvm_map_bins, %w{gem rake ruby rails bundle}
-set :rvm_custom_path, "/usr/share/rvm"
+set :rvm_custom_path, "/home/deployer/.rvm"
 
 # Default value for :linked_files is []
 append :linked_files, "config/database.yml", "config/secrets.yml"
