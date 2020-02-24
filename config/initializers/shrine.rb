@@ -6,7 +6,7 @@ if Rails.env.test?
   Shrine.storages = {
       cache: Shrine::Storage::Memory.new,
       store: Shrine::Storage::Memory.new,
-      video: Shrine::Storage::Memory.new,
+      receipt: Shrine::Storage::Memory.new,
   }
 elsif Rails.env.development?
   require "shrine/storage/file_system"
@@ -14,7 +14,7 @@ elsif Rails.env.development?
   Shrine.storages = {
       cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
       store: Shrine::Storage::FileSystem.new("public", prefix: "uploads/store"),
-      video: Shrine::Storage::FileSystem.new("public", prefix: "uploads/videos"),
+      receipt: Shrine::Storage::FileSystem.new("public", prefix: "uploads/receipt")
   }
 else
   require "shrine/storage/s3"
@@ -32,8 +32,8 @@ else
       upload_options: { acl: "public-read" }, **s3_options
   )
 
-  s3_video_storage = Shrine::Storage::S3.new(
-      prefix: "videos",
+  s3_receipt_storage = Shrine::Storage::S3.new(
+      prefix: "receipt",
       upload_options: { acl: "private" }, **s3_options
   )
 
@@ -52,7 +52,7 @@ else
   Shrine.storages = {
       cache: cache_storage,
       store: imgix_storage,
-      video: s3_video_storage,
+      receipt: s3_receipt_storage,
   }
 end
 
@@ -60,8 +60,11 @@ Shrine.logger = Rails.logger
 
 Shrine.plugin :activerecord # for AR integration
 Shrine.plugin :remote_url, max_size: 20 * 1024 * 1024 # remote_url support, max 20mb
+Shrine.plugin :cached_attachment_data # for retaining the cached file across form redisplays
 Shrine.plugin :restore_cached_data # for pulling metadata after a direct upload
 Shrine.plugin :keep_files, destroyed: true, replaced: true # for keeping files
+Shrine.plugin :pretty_location
+Shrine.plugin :derivatives
 
 if Rails.env.production?
   Shrine.plugin :presign_endpoint, presign_options: -> (request) {
