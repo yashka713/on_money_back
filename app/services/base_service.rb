@@ -67,7 +67,8 @@ class BaseService
       to_amount: @params[:amount] || @transaction.to_amount,
       date: @params[:date] || @transaction.date,
       note: @params[:note] || @transaction.note,
-      tag_ids: @params[:tag_ids]
+      tag_ids: @params[:tag_ids],
+      receipt: @params[:receipt] || @transaction.receipt
     }
   end
 end

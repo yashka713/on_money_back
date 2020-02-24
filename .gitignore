@@ -19,3 +19,4 @@
 pg-data/
 docker-commands
 mongo-data/
+/public/uploads/*

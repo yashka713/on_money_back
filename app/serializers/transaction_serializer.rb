@@ -1,6 +1,6 @@
 class TransactionSerializer < ActiveModel::Serializer
   attributes(*Transaction.attribute_names.map(&:to_sym) - %i[
-    chargeable_type chargeable_id profitable_type profitable_id user_id
+    chargeable_type chargeable_id profitable_type profitable_id user_id receipt_data
   ])
 
   belongs_to :chargeable
@@ -13,6 +13,7 @@ class TransactionSerializer < ActiveModel::Serializer
 
   attribute :date
   attribute :status
+  attribute :receipt
   attributes :from_symbol, :to_symbol
 
   def date
@@ -21,6 +22,13 @@ class TransactionSerializer < ActiveModel::Serializer
 
   def status
     @object.persisted? ? :active : :deleted
+  end
+
+  def receipt
+    {
+      original: @object.receipt_url,
+      thumbnail:  @object.receipt_url(:thumbnail)
+    }
   end
 
   def from_symbol
