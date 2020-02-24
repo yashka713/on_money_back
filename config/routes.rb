@@ -44,6 +44,9 @@ Rails.application.routes.draw do
         collection do
           get :months_list
         end
+        member do
+          delete :destroy_receipt
+        end
       end
 
       resources :categories, only: %i[index create show update destroy] do
