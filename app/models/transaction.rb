@@ -51,6 +51,7 @@ class Transaction < ApplicationRecord
   end)
 
   before_save :squish_note
+  after_save :derivate_receipt
 
   private
 
@@ -62,6 +63,12 @@ class Transaction < ApplicationRecord
 
   def squish_note
     self.note = note.try(:squish)
+  end
+
+  def derivate_receipt
+    if receipt_changed? && receipt
+      self.receipt_derivatives!
+    end
   end
 
   def date_cannot_be_in_the_future
