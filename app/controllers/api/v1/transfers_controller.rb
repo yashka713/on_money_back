@@ -51,7 +51,7 @@ module Api
       end
 
       def transfer_params
-        params.require(:transfer).permit(:date, :amount, :from, :to, :note, :rate, tag_ids: [])
+        params.require(:transfer).permit(:date, :amount, :from, :to, :note, :rate, :receipt, tag_ids: [])
       end
     end
   end
