@@ -4,8 +4,6 @@ class Transaction < ApplicationRecord
   include Chargeable
   include Charteable
 
-  include ReceiptUploader::Attachment(:receipt)
-
   TYPES = %i[transfer charge profit].freeze
 
   enum operation_type: TYPES
@@ -16,8 +14,10 @@ class Transaction < ApplicationRecord
 
   has_many :transaction_tags, dependent: :destroy, foreign_key: 'money_transaction_id'
   has_many :tags, through: :transaction_tags
+  has_one :receipt, foreign_key: 'money_transaction_id', dependent: :destroy
 
   accepts_nested_attributes_for :transaction_tags
+  accepts_nested_attributes_for :receipt, update_only: true, reject_if: ->(attributes) { attributes.empty? }
 
   validates :date, :from_amount, :to_amount, presence: true
 
@@ -51,7 +51,6 @@ class Transaction < ApplicationRecord
   end)
 
   before_save :squish_note
-  after_save :derivate_receipt
 
   private
 
@@ -63,12 +62,6 @@ class Transaction < ApplicationRecord
 
   def squish_note
     self.note = note.try(:squish)
-  end
-
-  def derivate_receipt
-    if receipt_changed? && receipt
-      self.receipt_derivatives!
-    end
   end
 
   def date_cannot_be_in_the_future
