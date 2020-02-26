@@ -48,7 +48,7 @@ module Api
       end
 
       def charge_params
-        params.require(:charge).permit(:date, :amount, :from, :to, :note, :receipt, tag_ids: [])
+        params.require(:charge).permit(:date, :amount, :from, :to, :note, receipt_attributes: {}, tag_ids: [])
       end
     end
   end

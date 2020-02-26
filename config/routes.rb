@@ -41,11 +41,14 @@ Rails.application.routes.draw do
       resources :tags
 
       resources :transactions, only: :index do
+        resources :receipts, only: [] do
+          collection do
+            delete :destroy
+          end
+        end
+
         collection do
           get :months_list
-        end
-        member do
-          delete :destroy_receipt
         end
       end
 

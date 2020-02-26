@@ -48,7 +48,7 @@ module Api
       end
 
       def profit_params
-        params.require(:profit).permit(:date, :amount, :from, :to, :note, :receipt, tag_ids: [])
+        params.require(:profit).permit(:date, :amount, :from, :to, :note, receipt_attributes: {}, tag_ids: [])
       end
     end
   end

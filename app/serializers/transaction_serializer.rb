@@ -1,6 +1,6 @@
 class TransactionSerializer < ActiveModel::Serializer
   attributes(*Transaction.attribute_names.map(&:to_sym) - %i[
-    chargeable_type chargeable_id profitable_type profitable_id user_id receipt_data
+    chargeable_type chargeable_id profitable_type profitable_id user_id
   ])
 
   belongs_to :chargeable
@@ -25,9 +25,13 @@ class TransactionSerializer < ActiveModel::Serializer
   end
 
   def receipt
+    receipt = @object.receipt
+
+    return {} unless receipt
+
     {
-      original: @object.receipt_url,
-      thumbnail:  @object.receipt_url(:thumbnail)
+      original: receipt.receipt_url,
+      thumbnail: receipt.receipt_url(:thumbnail)
     }
   end
 
