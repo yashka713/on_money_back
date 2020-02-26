@@ -2,7 +2,7 @@ class ReceiptUploader < Shrine
   plugin :default_storage, store: :receipt
 
   # rubocop:disable Metrics/AbcSize
-  def generate_location(io, record: nil, derivative: nil)
+  def generate_location(io, record: nil, derivative: nil, **options)
     return super unless record.try(:id)
 
     user = record.user

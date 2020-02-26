@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
 
+  mount Shrine.presign_endpoint(:cache) => "/s3/params"
+
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       resources :sessions, only: %i[create] do
