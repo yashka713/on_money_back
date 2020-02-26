@@ -23,13 +23,6 @@ module Api
         render_success months_list
       end
 
-      def destroy_receipt
-        @transaction.receipt = nil
-        @transaction.save
-
-        render_success @transaction
-      end
-
       private
 
       def transaction_list
