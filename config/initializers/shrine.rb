@@ -33,17 +33,6 @@ else
       cache: Shrine::Storage::S3.new(prefix: "cache", **s3_options),
       receipt: s3_receipt_storage,
   }
-
-  Shrine.plugin :presign_endpoint, presign_options: -> (request) {
-    # Uppy will send the "filename" and "type" query parameters
-    filename = request.params["filename"]
-    type     = request.params["type"]
-    {
-        content_disposition: "inline; filename=\"#{filename}\"", # set download filename
-        content_type: type,                                       # set content type
-        content_length_range: 0..(10 * 1024 * 1024),       # limit upload size to 10 GB
-    }
-  }
 end
 
 Shrine.logger = Rails.logger
