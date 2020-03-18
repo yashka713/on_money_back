@@ -7,13 +7,13 @@ if Rails.env.test?
       cache: Shrine::Storage::Memory.new,
       receipt: Shrine::Storage::Memory.new,
   }
-elsif Rails.env.development?
-  require "shrine/storage/file_system"
-
-  Shrine.storages = {
-      cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
-      receipt: Shrine::Storage::FileSystem.new("public", prefix: "uploads/receipt")
-  }
+# elsif Rails.env.development?
+#   require "shrine/storage/file_system"
+#
+#   Shrine.storages = {
+#       cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
+#       receipt: Shrine::Storage::FileSystem.new("public", prefix: "uploads/receipt")
+#   }
 else
   require "shrine/storage/s3"
 
