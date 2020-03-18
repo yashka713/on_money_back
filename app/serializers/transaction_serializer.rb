@@ -27,9 +27,10 @@ class TransactionSerializer < ActiveModel::Serializer
   def receipt
     receipt = @object.receipt
 
-    return {} unless receipt
+    return unless receipt
 
     {
+      filename: receipt.receipt.original_filename,
       original: receipt.receipt_url,
       thumbnail: receipt.receipt_url(:thumbnail)
     }
