@@ -1,6 +1,8 @@
 FactoryBot.define do
-  factory :receipt do
-    association :money_transaction, factory: :transaction
+  factory :receipt, class: Receipt do
     association :user
+    association :money_transaction, factory: :profit
+
+    receipt { Rack::Test::UploadedFile.new('spec/fixtures/receipt.jpg', 'image/jpeg') }
   end
 end

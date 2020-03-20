@@ -16,6 +16,10 @@ FactoryBot.define do
         transfer.tags << build(:tag, user: transfer.user)
       end
     end
+
+    trait :with_receipt do
+      receipt
+    end
   end
 
   factory :profit, class: Transaction do
@@ -34,6 +38,10 @@ FactoryBot.define do
         profit.tags << build(:tag, user: profit.user)
       end
     end
+
+    trait :with_receipt do
+      receipt
+    end
   end
 
   factory :charge, class: Transaction do
@@ -51,6 +59,10 @@ FactoryBot.define do
       after(:build) do |charge|
         charge.tags << build(:tag, user: charge.user)
       end
+    end
+
+    trait :with_receipt do
+      receipt
     end
   end
 end
