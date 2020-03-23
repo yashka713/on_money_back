@@ -18,7 +18,9 @@ FactoryBot.define do
     end
 
     trait :with_receipt do
-      receipt
+      after(:build) do |transfer|
+        transfer.receipt = build(:receipt, user: transfer.user)
+      end
     end
   end
 
@@ -33,6 +35,7 @@ FactoryBot.define do
     # Polymorphic Association
     chargeable { |profit| profit.association(:category) }
     profitable { |profit| profit.association(:account) }
+
     trait :with_tags do
       after(:build) do |profit|
         profit.tags << build(:tag, user: profit.user)
@@ -40,7 +43,9 @@ FactoryBot.define do
     end
 
     trait :with_receipt do
-      receipt
+      after(:build) do |profit|
+        profit.receipt = build(:receipt, user: profit.user)
+      end
     end
   end
 
@@ -62,7 +67,9 @@ FactoryBot.define do
     end
 
     trait :with_receipt do
-      receipt
+      after(:build) do |charge|
+        charge.receipt = build(:receipt, user: charge.user)
+      end
     end
   end
 end
