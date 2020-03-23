@@ -3,7 +3,7 @@ FactoryBot.define do
     email     { Faker::Internet.email }
     description  { Faker::Lorem.sentences }
 
-    factory :recover_request do
+    factory :recovery_request, class: Request do
       recover_password { 1 }
     end
   end

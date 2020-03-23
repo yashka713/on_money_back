@@ -11,7 +11,7 @@ class Request < ApplicationRecord
   private
 
   def need_password_recover?
-    recover_password == 1
+    recover_password.to_i == 1
   end
 
   def send_new_password

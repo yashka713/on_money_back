@@ -6,7 +6,7 @@ RSpec.describe Request, type: :model do
   context 'process' do
     let(:email) { 'test_email@example.com' }
 
-    let(:request) { create(:recover_request, email: email) }
+    let(:request) { create(:recovery_request, email: email) }
 
     context 'for defined user' do
       let!(:user) { create(:user, email: email) }
