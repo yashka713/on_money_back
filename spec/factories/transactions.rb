@@ -16,6 +16,12 @@ FactoryBot.define do
         transfer.tags << build(:tag, user: transfer.user)
       end
     end
+
+    trait :with_receipt do
+      after(:build) do |transfer|
+        transfer.receipt = build(:receipt, user: transfer.user)
+      end
+    end
   end
 
   factory :profit, class: Transaction do
@@ -29,9 +35,16 @@ FactoryBot.define do
     # Polymorphic Association
     chargeable { |profit| profit.association(:category) }
     profitable { |profit| profit.association(:account) }
+
     trait :with_tags do
       after(:build) do |profit|
         profit.tags << build(:tag, user: profit.user)
+      end
+    end
+
+    trait :with_receipt do
+      after(:build) do |profit|
+        profit.receipt = build(:receipt, user: profit.user)
       end
     end
   end
@@ -50,6 +63,12 @@ FactoryBot.define do
     trait :with_tags do
       after(:build) do |charge|
         charge.tags << build(:tag, user: charge.user)
+      end
+    end
+
+    trait :with_receipt do
+      after(:build) do |charge|
+        charge.receipt = build(:receipt, user: charge.user)
       end
     end
   end

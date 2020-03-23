@@ -1,6 +1,16 @@
 FactoryBot.define do
-  factory :transaction_tag do
-    association :transaction_money, factory: :transaction
+  factory :transfer_transaction_tag, class: TransactionTag do
+    association :transaction_money, factory: :transfer
+    tag
+  end
+
+  factory :charge_transaction_tag, class: TransactionTag do
+    association :transaction_money, factory: :charge
+    tag
+  end
+
+  factory :profit_transaction_tag, class: TransactionTag do
+    association :transaction_money, factory: :profit
     tag
   end
 end
