@@ -19,6 +19,6 @@ class Request < ApplicationRecord
 
     user&.reset_password
 
-    description << "\n There is problem with user. Write him!" if description.present?
+    description << "\n There is a problem with user. Write him!" if description.present?
   end
 end

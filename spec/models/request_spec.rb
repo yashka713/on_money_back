@@ -5,7 +5,6 @@ RSpec.describe Request, type: :model do
 
   context 'process' do
     let(:email) { 'test_email@example.com' }
-
     let(:request) { create(:recover_request, email: email) }
 
     context 'for defined user' do
@@ -25,7 +24,7 @@ RSpec.describe Request, type: :model do
 
       it 'add mark to description' do
         request.process
-        expect(request.description).to match(/There is problem with user. Write him!/)
+        expect(request.description).to match(/There is a problem with user. Write him!/)
       end
     end
 
