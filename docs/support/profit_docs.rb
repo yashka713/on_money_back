@@ -68,6 +68,21 @@ module Docs
           key :type, :string
           key :example, 'active'
         end
+        property :receipt do
+          key :type, :object
+          property :filename do
+            key :type, :string
+            key :example, 'receipt.jpg'
+          end
+          property :original do
+            key :type, :string
+            key :example, 'https://s3-path.amazonaws.com/original-receipt.jpg'
+          end
+          property :thumbnail do
+            key :type, :string
+            key :example, 'https://s3-path.amazonaws.com/thumbnail-receipt.jpg'
+          end
+        end
       end
       property :relationships do
         key :type, :object
@@ -162,6 +177,21 @@ module Docs
           property :status do
             key :type, :string
             key :example, 'active'
+          end
+          property :receipt do
+            key :type, :object
+            property :filename do
+              key :type, :string
+              key :example, 'receipt.jpg'
+            end
+            property :original do
+              key :type, :string
+              key :example, 'https://s3-path.amazonaws.com/original-receipt.jpg'
+            end
+            property :thumbnail do
+              key :type, :string
+              key :example, 'https://s3-path.amazonaws.com/thumbnail-receipt.jpg'
+            end
           end
         end
         property :relationships do
