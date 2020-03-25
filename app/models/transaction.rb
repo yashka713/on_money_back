@@ -3,6 +3,7 @@ class Transaction < ApplicationRecord
   include Profitable
   include Chargeable
   include Charteable
+  include Searchable
 
   TYPES = %i[transfer charge profit].freeze
 
