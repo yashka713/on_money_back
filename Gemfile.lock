@@ -102,6 +102,19 @@ GEM
       railties (>= 3.2, < 6.1)
     down (5.1.0)
       addressable (~> 2.5)
+    elasticsearch (7.5.0)
+      elasticsearch-api (= 7.5.0)
+      elasticsearch-transport (= 7.5.0)
+    elasticsearch-api (7.5.0)
+      multi_json
+    elasticsearch-model (6.1.0)
+      activesupport (> 3)
+      elasticsearch (> 1)
+      hashie
+    elasticsearch-rails (6.1.0)
+    elasticsearch-transport (7.5.0)
+      faraday (>= 0.14, < 1)
+      multi_json
     equatable (0.6.0)
     erubi (1.8.0)
     factory_bot (5.0.2)
@@ -116,6 +129,8 @@ GEM
       tty-pager (~> 0.12.0)
       tty-screen (~> 0.6.5)
       tty-tree (~> 0.3.0)
+    faraday (0.17.3)
+      multipart-post (>= 1.2, < 3)
     ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -123,6 +138,7 @@ GEM
       railties
       sprockets-rails
     graphql (1.9.6)
+    hashie (4.1.0)
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (1.6.0)
@@ -162,7 +178,9 @@ GEM
     minitest (5.11.3)
     money (6.13.4)
       i18n (>= 0.6.4, <= 2)
+    multi_json (1.14.1)
     multi_xml (0.6.0)
+    multipart-post (2.1.1)
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
@@ -325,6 +343,8 @@ DEPENDENCIES
   capistrano-rvm
   database_cleaner
   dotenv-rails
+  elasticsearch-model (~> 6.0)
+  elasticsearch-rails (~> 6.0)
   factory_bot_rails
   faker
   graphiql-rails

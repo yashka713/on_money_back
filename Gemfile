@@ -10,6 +10,10 @@ gem 'active_model_serializers'
 gem 'aws-sdk-s3', '~> 1.14'
 gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan'
+# elasticsearch
+gem 'elasticsearch-model', '~> 6.0'
+gem 'elasticsearch-rails', '~> 6.0'
+# graphql
 gem 'graphiql-rails'
 gem 'graphql'
 gem 'image_processing'
