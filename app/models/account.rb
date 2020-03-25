@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  include Searchable
+
   STATUSES = %i[active hidden].freeze
 
   CURRENCIES_LIST = Money::Currency.stringified_keys.to_a.map(&:upcase)
@@ -20,6 +22,10 @@ class Account < ApplicationRecord
 
   def destroy
     hidden!
+  end
+
+  def as_indexed_json(_options = {})
+    as_json(only: %i[name currency])
   end
 
   private

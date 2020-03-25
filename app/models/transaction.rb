@@ -53,6 +53,23 @@ class Transaction < ApplicationRecord
 
   before_save :squish_note
 
+  def as_indexed_json(_options={})
+    self.as_json(
+        include: { chargeable:  { methods: [:currency], only: :name},
+                   tags:        { only: [:name] },
+                   profitable:  { methods: [:currency], only: :name }
+        },
+        only: [
+            :chargeable_type,
+            :profitable_type,
+            :operation_type,
+            :from_amount,
+            :to_amount,
+            :date,
+            :note
+        ])
+  end
+
   private
 
   def attributes_active
