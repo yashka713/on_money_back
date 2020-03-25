@@ -3,6 +3,7 @@ class Transaction < ApplicationRecord
   include Profitable
   include Chargeable
   include Charteable
+  include Searchable
 
   TYPES = %i[transfer charge profit].freeze
 
@@ -51,6 +52,23 @@ class Transaction < ApplicationRecord
   end)
 
   before_save :squish_note
+
+  def as_indexed_json(_options={})
+    self.as_json(
+        include: { chargeable:  { methods: [:currency], only: :name},
+                   tags:        { only: [:name] },
+                   profitable:  { methods: [:currency], only: :name }
+        },
+        only: [
+            :chargeable_type,
+            :profitable_type,
+            :operation_type,
+            :from_amount,
+            :to_amount,
+            :date,
+            :note
+        ])
+  end
 
   private
 

@@ -1,4 +1,6 @@
 class Category < ApplicationRecord
+  include Searchable
+
   TYPES = %w[charge profit].freeze
   STATUSES = %w[active hidden].freeze
 
@@ -20,6 +22,13 @@ class Category < ApplicationRecord
 
   def destroy(params)
     CategoryDestroyerService.new(self, params).destroy
+  end
+
+  # stub for elastic indexes
+  def currency; end
+
+  def as_indexed_json(_options = {})
+    as_json(only: %i[name currency])
   end
 
   private

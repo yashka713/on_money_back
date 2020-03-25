@@ -17,6 +17,7 @@ A description of the features will be added during the development process.
 * Postgres
 * Hivemind (for launching)
 * Docker
+* Elasticsearch + Kibana
 
 ## Deployment
 
@@ -40,6 +41,7 @@ Required software:
 * `postgresDb`
 * [hivemind](https://github.com/DarthSim/hivemind)
 * `Docker`
+* `Elasticsearch` + `Kibana`
 
 Install
 -----------------
@@ -49,6 +51,7 @@ cp .env.example .env
 bundle install
 bundle exec rake db:create
 bundle exec rake db:migrate
+bundle exec rake elasticsearch:reindex environment
 ```
 
 Launch
